@@ -11,4 +11,6 @@ TO-DO LIST:
 
   probabilities
   https://www.mathcelebrity.com/yahtzee.php?pl=3+of+a+Kind
-  
+  https://www.datagenetics.com/blog/january42012/
+  https://ctools.ece.utah.edu/Probability/Combinatorics/ProbCombEx3.pdf
+https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-faces-when-five-dice-are-rolled#:~:text=If%20you%20want%20five%20different,five%20dice%20have%20different%20faces.
