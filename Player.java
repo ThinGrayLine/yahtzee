@@ -6,6 +6,7 @@ public class Player extends Game {
     //private boolean isWinner;
     //private Player winningPlayer;
     private int total;
+    private String playerName;
     private int upperSectionTotal;
     private ArrayList<Dice> hand;
     
@@ -13,6 +14,8 @@ public class Player extends Game {
         total = 0;
         // give hand?
     }
+    
+    // SET NAME METHOD;
     
     
     public int getTotal() {
@@ -29,6 +32,9 @@ public class Player extends Game {
     
     public void setUpperSectionTotal() {
         //upperSectionTotal CALL onesScore, twosScore... 
+        if (isOnes == false && isTwos == false...) {
+		upperSectionTotal = getOnes() + getTwos() + getThrees() + getFours() + getFives() + getSixes();
+	}
     }
     
 }
