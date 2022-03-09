@@ -11,15 +11,22 @@ import java.util.ArrayList;
  */
 public class Probability {
     private double probability;
+    // have list of all base probabilities in attributes?
+    
     
     public Probability() {
         
     }
     
+    // write in fractional form!
     public double factor(double probability) {
         BigDecimal bd = new BigDecimal(probability).setScale(2, RoundingMode.HALF_UP);
         double factored = bd.doubleValue();
         return factored;
+    }
+    
+    public String fractional() {
+        return /*PROBABILITY*/"/7776";
     }
     
     public double probThreeOfAKind(ArrayList<Dice> list) {
