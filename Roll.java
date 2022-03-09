@@ -6,16 +6,17 @@ import java.util.ArrayList;
  *
  * @author gyenc
  */
-public class Roll {
+public class Roll extends Dice {
     // make scores 0 initially?
+    // MAKE ALL BASE SCORES STATIC!?
     private final int ONES = 1;
     private final int TWOS = 2;
     private final int THREES = 3;
     private final int FOURS = 4;
     private final int FIVES = 5;
     private final int SIXES = 6;
-    private final int THREE_OF_A_KIND; // remove
-    private final int FOUR_OF_A_KIND; // remove      
+    //private final int THREE_OF_A_KIND; // remove
+    //private final int FOUR_OF_A_KIND; // remove      
     private final int SMALL_STRAIGHT = 30;       
     private final int LARGESTRAIGHT = 40;   
     private final int FULL_HOUSE = 25;       
@@ -48,35 +49,78 @@ public class Roll {
     private boolean availableYahtzee; 
     
     public Roll() {
-        // inherit arraylist of dice
+        // inherit arraylist of dice --> should do it cause hand is public
     } 
     
     public boolean checkRolls() { // check this
+        // determine whether the boolean attributes are true or not. Make one for each?
         
     }
     
     public boolean isOnes(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 1) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isTwos(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 2) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isThrees(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 3) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isFours(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 4) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isFives(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 5) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isSixes(ArrayList<Dice> list) {
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 6) {
+                return true;
+            }
+        }
         
+        return false;
     }
     
     public boolean isThreeOfAKind(ArrayList<Dice> list) {
@@ -88,23 +132,49 @@ public class Roll {
     }
     
     public boolean isSmallStraight(ArrayList<Dice> list) {
-        
+        // see if it's 1,2,3,4 or 2,3,4,5 or 3,4,5,6 
+        // reorder in increasing order
     }
     
     public boolean isLargeStraight(ArrayList<Dice> list) {
-        
+        // see if it's 1,2,3,4,5 or 2,3,4,5,6  
+        // reorder in increasing order
     }
     
     public boolean isChance(ArrayList<Dice> list) {
-        
+        // should always be available unless chosen
     }
     
     public boolean isYahtzee(ArrayList<Dice> list) {
+        int[] num = new int[list.size()];
         
+        for (int i = 0; i < 6; i++) {
+            int number = list.get(i).getDiceValue();
+            num[i] = number;
+        }
+        
+        
+        
+        
+        if (num[0] == num[1] == num[2] == num[3] == num[4] == num[5]) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public void chooseOnes(ArrayList<Dice> list) {
-        onesScore = ONES*list.getSize();
+        int numOfOne = 0;
+        
+        for (int i = 0; i < 6; i++) {
+            int num = list.get(i).getDiceValue();
+            if (num == 1) {
+                numOfOne += 1;
+            }
+        }
+        
+        onesScore = numOfOne*ONES;
+        
     }
     
     public void chooseTwos(ArrayList<Dice> list) {
