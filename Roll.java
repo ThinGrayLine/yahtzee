@@ -2,6 +2,10 @@ package YahtzeeProject;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @author gyenc
+ */
 public class Roll {
     // make scores 0 initially?
     private final int ONES = 1;
@@ -208,5 +212,7 @@ public class Roll {
     public int getYahtzee() {
         return yahtzeeScore;
     }
+    
+    // getProbability method;
     
 }
