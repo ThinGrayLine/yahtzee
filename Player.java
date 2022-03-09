@@ -8,11 +8,16 @@ public class Player extends Game {
     private int total;
     private String playerName;
     private int upperSectionTotal;
-    private ArrayList<Dice> hand;
+    public ArrayList<Dice> hand;
     
     public Player() {
         total = 0;
-        // give hand?
+        //ArrayList<Dice> hand = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Dice die = new Dice();
+            hand.add(die);
+        }
+        
     }
     
     // SET NAME METHOD;
