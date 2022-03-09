@@ -8,3 +8,7 @@ TO-DO LIST:
 - Finish JavaFX
 - Write eventhandlers
 - Add and code ArrayList<Dice>
+
+  probabilities
+  https://www.mathcelebrity.com/yahtzee.php?pl=3+of+a+Kind
+  
