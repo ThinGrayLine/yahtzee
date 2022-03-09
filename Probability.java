@@ -9,9 +9,18 @@ import java.util.ArrayList;
  *
  * @author gyenc
  */
-public class Probability {
+public class Probability extends Roll {
     private double probability;
     // have list of all base probabilities in attributes?
+    private String tOAKProb = "1200/7776";
+    private String fOAKProb = "150/7776";
+    private String sSProb = "960/7776";
+    private String lSProb = "240/7776";
+    private String fHProb = "300/7776";
+    private String chanceProb = ""; // 100% technically but remove the lower section options
+    private String yahtzeeProb = "6/7776";
+    
+    
     
     
     public Probability() {
