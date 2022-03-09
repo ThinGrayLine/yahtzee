@@ -7,3 +7,4 @@ TO-DO LIST:
 - Find way to calculate probabilities in the moment
 - Finish JavaFX
 - Write eventhandlers
+- Add and code ArrayList<Dice>
