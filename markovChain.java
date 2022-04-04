@@ -1,6 +1,15 @@
 package testCode;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class Main {
 
@@ -138,10 +147,11 @@ public class Main {
         
         // calculate probabilites
         double[][] probabilities = new double[5][1];
+        //BigDecimal bd = new BigDecimal();
         
         for (int i = 0; i < markovChain.length; i++) {
             for (int k = 0; k < markovChain[i].length; k++) {
-                probabilities[i][0] += markovChain[i][k]*state[k][0]*100;
+                probabilities[i][0] += markovChain[i][k]*state[k][0]*100.0;;
             }
         }
         
@@ -150,22 +160,129 @@ public class Main {
     }
     
     public static int diceFace(String hand) { // NEED TO CHECK FOR FULL HOUSE/STRAIGHTS!
+        // PASS AN ARRAYLIST FIRST? COUNT FROM ARRAYLIST AND NOT FROM COLLECTIONS.FREQUENCY
+        
         // broken, needs fix
-        String mostUsedChar = "";
+        // have individual counts
+        // compare each count at end
+        
+        String mostUsedChar = ""; 
+        ArrayList<Integer> numCounts = new ArrayList<>();
         int count = 0;
-
-        String[] array = hand.split("");
-
-        for (int i = 0; i < array.length; i++) {
+        
+        // number comparing arraylists
+        ArrayList<Integer> val1 = new ArrayList<Integer>();
+        val1.add(0); // redundant
+        ArrayList<Integer> val2 = new ArrayList<Integer>();
+        val2.add(0);
+        ArrayList<Integer> val3 = new ArrayList<Integer>();
+        val3.add(0);
+        ArrayList<Integer> val4 = new ArrayList<Integer>();
+        val4.add(0);
+        ArrayList<Integer> val5 = new ArrayList<Integer>();
+        val5.add(0);
+        ArrayList<Integer> val6 = new ArrayList<Integer>();
+        val6.add(0);
+        
+        String[] handLength = hand.split(", ");
+        ArrayList<String> handLengthSorted = new ArrayList<>(java.util.Arrays.asList(handLength));
+        
+        
+        // SORT THEN COMPARE?
+        Collections.sort(handLengthSorted);
+        System.out.println("aaaaa " + handLengthSorted);
+        
+        for (int i = 0; i < 6; i++) {
+            numCounts.add(0);
+        }
+        
+        Set<String> st = new HashSet<String>(handLengthSorted);
+        int i = 0;
+        for (String s : st) {
+            if (handLengthSorted.get(i) == "1") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val1.get(0) == num) {
+                    continue;
+                }
+                
+                //Integer value = Integer.valueOf(s);
+                //val1.add(value);
+                val1.set(0, num);
+            } else if (handLengthSorted.get(i) == "2") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val2.get(0) == num) {
+                    continue;
+                }
+                //Integer value = Integer.valueOf(s);
+                //val2.add(value);
+                val2.set(0, num);
+            } else if (handLengthSorted.get(i) == "3") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val3.get(0) == num) {
+                    continue;
+                }
+                //Integer value = Integer.valueOf(s);
+                //val3.add(value);
+                val3.add(num);
+            } else if (handLengthSorted.get(i) == "4") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val4.get(0) == num) {
+                    continue;
+                }
+                //Integer value = Integer.valueOf(s);
+                //val4.add(value);
+                val4.add(num);
+            } else if (handLengthSorted.get(i) == "5") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val5.get(0) == num) {
+                    continue;
+                }
+                //Integer value = Integer.valueOf(s);
+                //val5.add(value);
+                val5.add(num);
+            } else if (handLengthSorted.get(i) == "6") {
+                Integer num = Collections.frequency(handLengthSorted, s);
+                if (val6.get(0) == num) {
+                    continue;
+                }
+                //Integer value = Integer.valueOf(s);
+                //val6.add(value);
+                val6.add(num);
+            }
+            
+            i++;
+        }
+        
+        ArrayList<Integer> occurrences = new ArrayList<>();
+        occurrences.add(val1.get(0));
+        occurrences.add(val2.get(0));
+        occurrences.add(val3.get(0));
+        occurrences.add(val4.get(0));
+        occurrences.add(val5.get(0));
+        occurrences.add(val6.get(0));
+        
+        
+        /*
+        for (int k = 0; k < handLengthSorted.size(); k++) { // GOTTA ACCOUNT FOR FULL HOUSES/STRAIGHTS!
+            for (int j = k+1; j < handLengthSorted.size(); j++) {
+                if (occurrences.get(k) > occurrences.get(j)) {
+                    
+                }
+            }
+        }*/
+        
+        
+        for (int k = 0; k < handLengthSorted.size(); k++) {
             int tempCount = 0;
 
-            for (int j = 0; j < array.length; j++)
-            {
-                if (array[i].equals(array[j])) {
+            for (int j = k+1; j < handLengthSorted.size(); j++) {
+                
+                if (occurrences.get(k) == occurrences.get(j)) {
                     tempCount++;
                 }
+                
                 if (tempCount > count) {
-                    count = tempCount; // sets most seen character
+                    count = tempCount; 
                 }
             }
         }
