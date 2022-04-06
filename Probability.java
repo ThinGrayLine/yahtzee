@@ -24,14 +24,15 @@ public class Probability extends Roll {
     public int turn = 1;
     
     // states
-    private double[][] state1 = {{1},{0}, {0}, {0}, {0}};
-    private double[][] state2 = {{0},{1}, {0}, {0}, {0}};
-    private double[][] state3 = {{0},{0}, {1}, {0}, {0}};
-    private double[][] state4 = {{0},{0}, {0}, {1}, {0}};
-    private double[][] state5 = {{0},{0}, {0}, {0}, {1}};
-    private double[][] currentState; // checks hand
+    static double[][] state1 = {{1},{0}, {0}, {0}, {0}};
+    static double[][] state2 = {{0},{1}, {0}, {0}, {0}};
+    static double[][] state3 = {{0},{0}, {1}, {0}, {0}};
+    static double[][] state4 = {{0},{0}, {0}, {1}, {0}};
+    static double[][] state5 = {{0},{0}, {0}, {0}, {1}};
+    static double[][] currentState; // checks hand
+    
     // PROBABILITY IS DONE BY MARKOV CHAIN
-    private double[][] markovChain = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
+    static double[][] markovChain = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
         {0.092592593, 0, 0, 0, 0},
         {0.694444444, 0.555555556, 0, 0, 0},
         {0.192901235, 0.37037037, 0.694444444, 0, 0},
@@ -39,7 +40,7 @@ public class Probability extends Roll {
         {0.000771605, 0.00462963, 0.027777778, 0.166666667, 1}
     };
     
-    private double[][] markovChainSquared = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
+    static double[][] markovChainSquared = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
         {0.008573388, 0, 0, 0, 0},
         {0.450102881, 0.308641976, 0, 0, 0},
         {0.409022062, 0.462962963, 0.482253086, 0, 0},
@@ -47,7 +48,7 @@ public class Probability extends Roll {
         {0.009952275, 0.019418725, 0.054783951, 0.050925926, 1}
     };
     
-    private double[][] markovChainCubed = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
+    static double[][] markovChainCubed = {   // Lower Triangular Matrix that is multiplied by the states to determine the probability at any point
         {0.000793832, 0, 0, 0, 0},
         {0.256010898, 0.171467764, 0, 0, 0},
         {0.452401686, 0.4358139, 0.334897976, 0, 0},
@@ -56,7 +57,7 @@ public class Probability extends Roll {
     };
 
     // markov chain for small straights
-    private double[][] SSmarkovChain = {
+    static double[][] SSmarkovChain = {
         {0.092592593, 0, 0, 0}, // probability of staying in state 1 when in state 1 is 9.2592593%, no need to square, it stays the same
         {0.694444444, 0.555555556, 0, 0},
         {0.192901235, 0.37037037, 0.694444444, 0},
@@ -70,7 +71,7 @@ public class Probability extends Roll {
     
     
     // markov chain for large straights
-    private double[][] LSmarkovChain = {   
+    static double[][] LSmarkovChain = {   
         {0.012345679, 0, 0, 0, 0},
         {0.200617284, 0.125, 0, 0, 0},
         {0.509259259, 0.513888889, 0.444444444, 0, 0},
@@ -78,7 +79,7 @@ public class Probability extends Roll {
         {0.018518519, 0.027777778, 0.055555556, 0.166666667, 1}
     };
     
-    private double[][] LSmarkovChainSquared = {   
+    static double[][] LSmarkovChainSquared = {   
         {0.000152416, 0, 0, 0, 0},
         {0.027553917, 0.015625, 0, 0, 0},
         {0.335719593, 0.292631173, 0.197530864, 0, 0},
@@ -86,7 +87,7 @@ public class Probability extends Roll {
         {0.095821903, 0.115354939, 0.163580248, 0.305555556, 1}
     };
 
-    private double[][] LSmarkovChainCubed = {   
+    static double[][] LSmarkovChainCubed = {   
         {0.00000188168, 0, 0, 0, 0},
         {0.003474817, 0.001953125, 0, 0, 0},
         {0.163445979, 0.138087813, 0.087791495, 0, 0},
@@ -94,34 +95,50 @@ public class Probability extends Roll {
         {0.205366563, 0.228111069, 0.281035666, 0.421296297, 1}
     };
     
+    
+    // EXPLANATIONS
+        // **HOW STATES WORK:**
+        // FOR A YAHTZEE:
+        // STATE 1: ABCDE (5 UNIQUE DICE, SMALL AND LARGE STRAIGHT ARE SUBSETS OF STATE 1)
+        // STATE 2: AABCD OR AABCC (TWO OF A KIND, BUT NO THREE OF A KIND)
+        // STATE 3: AAABC OR AAABB (THREE OF A KIND OR A FULL HOUSE)
+        // STATE 4: AAAAB (FOUR OF A KIND)
+        // STATE 5: AAAAA (YAHTZEE!)
+        
+        // FOR SMALL STRAIGHT
+        // STATE 1: 1 DICE IN STRAIGHT, BUT NOT 2 (33333, 22266, ETC.)
+        // STATE 2: 2 DICE IN STRAIGHT, BUT NOT 3 (12555, 35111, ETC.)
+        // STATE 3: 3 DICE IN STRAIGHT, BUT NOT 4 (12366, 24511, ETC.)
+        // STATE 4: ALL 4 DICE (1234, 2345, 3456)
+    
+        // FOR LARGE STRAIGHT
+        // SIMILAR TO SMALL STRAIGHTS, EXCEPT WITH A FIFTH STATE FOR THE ADDITIONAL DICE
+    
+        // **MARKOV CHAIN**
+        // MULTIPLIES A BASE TRANSITION MATRIX BY A STATE
+        // A STATE REFLECTS WHAT THE PLAYER'S HAND LOOKS LIKE AT ONE MOMENT
+        // THE RESULT FROM THE MULTIPLICATION TELLS US HOW LIKELY SOMEONE IS TO MOVE FROM ONE STATE TO ANOTHER
+        // MEANING, HOW LIKELY THEY ARE TO GET A BETTER HAND (ASSUMING THEY KEEP THE DICE THAT GOT THEM TO THAT STATE)
+    
+        // **FOR ROLL 2**
+        // SQUARE THE MARKOV CHAIN YOU HAVE CURRENTLY
+        // THAT MATRIX IS THE LIKELINESS OF CHANGING STATES OR REMAINING IN THE SAME ONE
+        // ASSUMING THEY KEEP THE SAME DICE THAT GOT THEM THERE
+    
+        // **FOR ROLL 3**
+        // SAME AS BEFORE, MULTIPLY THE SQUARED MATRIX BY THE ORIGINAL MARKOV CHAIN (IE CUBE IT)
+        // SAME EXPLANATION AS ROLL 2
+    
+    
     public Probability() {
         
     }
     
-    // need states -> check hand 
-    
+    /*
     public double[][] markovChain() {
-        // if statements for states
-
-        // state 1
-        double[][] state1Result = new double[5][1];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                
-                state1Result[i][0] = markovChain[i][0]*state1[0][0];
-                
-            }
-        }
         
-        return state1Result;
         
-    }
-    
-    public void currentState(ArrayList<Dice> hand) {
-        // checks hand and sets a state -> implement markov chain
-        for ()
-                markovChain();
-    }
+    }*/
     
     // write in fractional form!
     public double factor(double probability) {
@@ -130,32 +147,31 @@ public class Probability extends Roll {
         return factored;
     }
     
-    public String fractional() {
-        return /*PROBABILITY*/"/7776";
-    }
-    
     public double probThreeOfAKind(ArrayList<Dice> list) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
-        if (turn == 1) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 2) { 
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 3) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
-                }
-            }
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
         }
         
         return probabilities[2][0];
@@ -166,24 +182,27 @@ public class Probability extends Roll {
         // call findState method
         
         double[][] probabilities = new double[5][1];
-        if (turn == 1) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 2) { 
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 3) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
-                }
-            }
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
         }
         
         return probabilities[3][0];
@@ -193,56 +212,62 @@ public class Probability extends Roll {
         // call findState method
         
         double[][] probabilities = new double[5][1];
-        if (turn == 1) {
-            for (int i = 0; i < SSmarkovChain.length; i++) {
-                for (int k = 0; k < SSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 2) { 
-            for (int i = 0; i < SSmarkovChain.length; i++) {
-                for (int k = 0; k < SSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 3) {
-            for (int i = 0; i < SSmarkovChain.length; i++) {
-                for (int k = 0; k < SSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < SSmarkovChain.length; i++) {
+                    for (int k = 0; k < SSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < SSmarkovChain.length; i++) {
+                    for (int k = 0; k < SSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < SSmarkovChain.length; i++) {
+                    for (int k = 0; k < SSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += SSmarkovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
         }
         
         // find way to get state value
-        return probabilities[][0];
+        return probabilities[findRowState(currentState)][0]; // gets state from currentState. +1 to state?
     }
     
     public double probLargeStraight(ArrayList<Dice> list) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
-        if (turn == 1) {
-            for (int i = 0; i < LSmarkovChain.length; i++) {
-                for (int k = 0; k < LSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += LSmarkovChain[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 2) { 
-            for (int i = 0; i < LSmarkovChain.length; i++) {
-                for (int k = 0; k < LSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += LSmarkovChainSquared[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 3) {
-            for (int i = 0; i < LSmarkovChain.length; i++) {
-                for (int k = 0; k < LSmarkovChain[i].length; k++) {
-                    probabilities[i][0] += LSmarkovChainCubed[i][k]*currentState[k][0]*100.0;;
-                }
-            }
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < LSmarkovChain.length; i++) {
+                    for (int k = 0; k < LSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += LSmarkovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < LSmarkovChain.length; i++) {
+                    for (int k = 0; k < LSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += LSmarkovChainSquared[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < LSmarkovChain.length; i++) {
+                    for (int k = 0; k < LSmarkovChain[i].length; k++) {
+                        probabilities[i][0] += LSmarkovChainCubed[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
         }
         
         // find way to get state value
-        return probabilities[][0];
+        return probabilities[findRowState(currentState)][0]; // gets state from currentState. +1 to state?
     }
     
     // do we need this?
@@ -254,26 +279,102 @@ public class Probability extends Roll {
         // call findState method
         
         double[][] probabilities = new double[5][1];
-        if (turn == 1) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
-                }
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
+        }
+        
+        return probabilities[4][0];    
+    }
+    
+    public static int diceFace(ArrayList<Integer> hand) { 
+        // gets count of the most frequent dice
+        // two arraylists (dice and a counter) with contains, find the indexOf in dice -> add to counter using that!
+        ArrayList<Integer> counters = new ArrayList<>();
+        counters.add(0); // 1
+        counters.add(0); // 2
+        counters.add(0); // 3
+        counters.add(0); // 4
+        counters.add(0); // 5
+        counters.add(0); // 6
+        
+        
+        
+        for (int j = 0; j < hand.size(); j++) {
+            for (int i = 1; i < 7; i++) {
+                if (hand.get(j) == i) {
+                    counters.set(i-1, counters.get(i-1) + 1); // [1,1,2,3,5] --> [2,1,1,]
+                } 
             }
-        } else if (turn == 2) { 
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
-                }
-            }
-        } else if (turn == 3) {
-            for (int i = 0; i < markovChain.length; i++) {
-                for (int k = 0; k < markovChain[i].length; k++) {
-                    probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+        }
+        
+        System.out.println(counters);
+        
+        int highestCount = counters.get(0);
+        for (int i = 0; i < counters.size(); i++) {
+            for (int j = i+1; j < counters.size(); j++) {
+                if (highestCount < counters.get(j)) {
+                    highestCount = counters.get(j);
                 }
             }
         }
         
-        return probabilities[4][0];
+        return highestCount;
+    }
+    
+    public static double[][] findState(ArrayList<Integer> dice) {
+        // determine state
+        switch (diceFace(dice)) {
+            case 1:
+                currentState = state1;
+                break;
+            case 2:
+                currentState = state2;
+                break;
+            case 3:
+                currentState = state3;
+                break;
+            case 4:
+                currentState = state4;
+                break;
+            case 5:
+                currentState = state5;
+                break;
+            default:
+                break;
+        }
+        
+        return currentState;
+    }
+    
+    public int findRowState(double[][] currentState) {
+        int row = 0;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 1; j++) {
+                if (currentState[i][0] > 0) {
+                    row = i;
+                    break;
+                }
+            }
+        }
+        return (int) currentState[row][0];
     }
 }
