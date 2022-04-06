@@ -105,13 +105,13 @@ public class Probability extends Roll {
         // STATE 4: AAAAB (FOUR OF A KIND)
         // STATE 5: AAAAA (YAHTZEE!)
         
-        // FOR SMALL STRAIGHT
+        // **FOR SMALL STRAIGHT**
         // STATE 1: 1 DICE IN STRAIGHT, BUT NOT 2 (33333, 22266, ETC.)
         // STATE 2: 2 DICE IN STRAIGHT, BUT NOT 3 (12555, 35111, ETC.)
         // STATE 3: 3 DICE IN STRAIGHT, BUT NOT 4 (12366, 24511, ETC.)
         // STATE 4: ALL 4 DICE (1234, 2345, 3456)
     
-        // FOR LARGE STRAIGHT
+        // **FOR LARGE STRAIGHT**
         // SIMILAR TO SMALL STRAIGHTS, EXCEPT WITH A FIFTH STATE FOR THE ADDITIONAL DICE
     
         // **MARKOV CHAIN**
