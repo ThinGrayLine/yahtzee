@@ -321,7 +321,7 @@ public class Probability extends Roll {
         for (int j = 0; j < hand.size(); j++) {
             for (int i = 1; i < 7; i++) {
                 if (hand.get(j) == i) {
-                    counters.set(i-1, counters.get(i-1) + 1); // [1,1,2,3,5] --> [2,1,1,]
+                    counters.set(i-1, counters.get(i-1) + 1); 
                 } 
             }
         }
