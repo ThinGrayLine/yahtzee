@@ -47,12 +47,25 @@ public class Roll extends Dice {
     public static boolean availableFullHouse; 
     public static boolean availableChance;
     public static boolean availableYahtzee; 
+    public ArrayList<Dice> list = new ArrayList<Dice>(5);
+    
     
     private Probability probs;
     
-    public Roll() {
-        // inherit arraylist of dice --> should do it cause hand is public
+    public Roll() { // INITIALIZES ROLL ON TURN 1
+        for (int i = 0; i < 5; i++) {
+            list.get(i).setDiceValue();
+        }
     } 
+    
+    public void reroll() { // USE FOR TURNS 2 AND 3 FOR ROLL BUTTONS
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isSelected() == true) {
+                list.get(i).isSelected();
+            }
+        }
+        
+    }
     
     public boolean isOnes(ArrayList<Dice> list) {
         if (availableOnes == false) {
@@ -533,5 +546,59 @@ public class Roll extends Dice {
     public static boolean isAvailableYahtzee() {
         return availableYahtzee;
     }
+
+    public static void setAvailableOnes(boolean availableOnes) {
+        Roll.availableOnes = availableOnes;
+    }
+
+    public static void setAvailableTwos(boolean availableTwos) {
+        Roll.availableTwos = availableTwos;
+    }
+
+    public static void setAvailableThrees(boolean availableThrees) {
+        Roll.availableThrees = availableThrees;
+    }
+
+    public static void setAvailableFours(boolean availableFours) {
+        Roll.availableFours = availableFours;
+    }
+
+    public static void setAvailableFives(boolean availableFives) {
+        Roll.availableFives = availableFives;
+    }
+
+    public static void setAvailableSixes(boolean availableSixes) {
+        Roll.availableSixes = availableSixes;
+    }
+
+    public static void setAvailableSmallStraight(boolean availableSmallStraight) {
+        Roll.availableSmallStraight = availableSmallStraight;
+    }
+
+    public static void setAvailableLargeStraight(boolean availableLargeStraight) {
+        Roll.availableLargeStraight = availableLargeStraight;
+    }
+
+    public static void setAvailableThreeOfAKind(boolean availableThreeOfAKind) {
+        Roll.availableThreeOfAKind = availableThreeOfAKind;
+    }
+
+    public static void setAvailableFourOfAKind(boolean availableFourOfAKind) {
+        Roll.availableFourOfAKind = availableFourOfAKind;
+    }
+
+    public static void setAvailableFullHouse(boolean availableFullHouse) {
+        Roll.availableFullHouse = availableFullHouse;
+    }
+
+    public static void setAvailableChance(boolean availableChance) {
+        Roll.availableChance = availableChance;
+    }
+
+    public static void setAvailableYahtzee(boolean availableYahtzee) {
+        Roll.availableYahtzee = availableYahtzee;
+    }
+    
+    
     
 }
