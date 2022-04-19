@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.GuiController"> <!-- fx:controller="YahtzeeProject.GuiController" next to xmlns -->
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="402.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="699.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="68.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="699.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="62.0" layoutY="340.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="699.0" />
+            <VBox alignment="CENTER" layoutX="350.0" layoutY="18.0" prefHeight="304.0" prefWidth="310.0" style="-fx-border-color: black; -fx-padding: 10px; -fx-background-color: orange; -fx-effect: dropshadow(three-pass-box, orange, 10, 0, 0, 0);">
+               <children>
+                  <Button id="playButton" fx:id="playButton" mnemonicParsing="false" onAction="#play" prefHeight="42.0" prefWidth="254.0" style="-fx-border-radius: 30px; -fx-border-color: black; -fx-effect: dropshadow(three-pass-box, orange, 10, 0, 0, 0); -fx-border-width: 5px; -fx-padding: 5px; -fx-background-color: orange;" styleClass="hover" text="Play" textAlignment="CENTER">
+                     <font>
+                        <Font name="Harlow Solid Italic" size="45.0" />
+                     </font>
+                  </Button>
+                  <Button id="rulesButton" fx:id="rulesButton" mnemonicParsing="false" onAction="#rules" prefHeight="44.0" prefWidth="161.0" style="-fx-background-color: TRANSPARENT; -fx-border-radius: 30px; -fx-border-color: black; -fx-border-width: 5px;" styleClass="hover" text="Rules" textAlignment="CENTER">
+                     <font>
+                        <Font name="Harlow Solid Italic" size="26.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button id="creditsButton" fx:id="creditsButton" mnemonicParsing="false" onAction="#credits" prefHeight="31.0" prefWidth="161.0" style="-fx-background-color: TRANSPARENT; -fx-border-radius: 30px; -fx-border-color: black; -fx-border-width: 5px;" styleClass="hover" text="Credits" textAlignment="CENTER">
+                     <font>
+                        <Font name="Harlow Solid Italic" size="26.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button id="exitButton" fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="31.0" prefWidth="161.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: black; -fx-border-radius: 30px; -fx-border-width: 5px;" styleClass="hover" text="Exit">
+                     <font>
+                        <Font name="Harlow Solid Italic" size="26.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <Label layoutX="57.0" layoutY="156.0" text="Yahtzee!">
+               <font>
+                  <Font name="Harlow Solid Italic" size="53.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="251.0" layoutY="224.0" style="-fx-rotate: 25;">
+               <image>
+                  <Image url="@../../../../../../../../Downloads/SEMESTER%204/INTEGRATIVE%20PROJECT/Resources/Pictures/3.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="203.0" layoutY="239.0" style="-fx-rotate: -10;">
+               <image>
+                  <Image url="@../../../../../../../../Downloads/SEMESTER%204/INTEGRATIVE%20PROJECT/Resources/Pictures/2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
