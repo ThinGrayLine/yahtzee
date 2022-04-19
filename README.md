@@ -25,3 +25,12 @@ https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-fa
 
   EXCEL SHEET WITH PROBABILITIES (FOR YAHTZEE + STRAIGHTS):
   https://slcqc-my.sharepoint.com/:x:/g/personal/2032412_champlaincollege_qc_ca/Efhq3YtfcgREox6ppISIhYoBQ7v1EHQ2XanrUXoiU8-7UA?e=hBjtfs
+
+  To set up file:
+  - create a new folder in "main" and name it resources.
+  - in src/main, have two files "java" and "Resources"
+  - each have a folder inside them that matches the project name, here it is: "YahtzeeProject"
+  - "java" contains all the controllers and the classes
+  - "Resources" contains all the FXML files
+  - run the code in Main.java
+  
