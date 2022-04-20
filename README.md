@@ -1,19 +1,13 @@
 # yahtzee
 just a yahtzee game made for a CS final project (champlain st lambert)
+(need to edit the folders, sorry!!)
 
 made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
-TO-DO LIST:
-- Finish JavaFX
-- Write eventhandlers
-- Add and code ArrayList<Dice>
-  
-- TO FIND FULL HOUSE: CHECK IF COUNTERS CONTAINS 2 AND 3
-- TO FIND STRAIGHTS: CHECK TO SEE IF COUNTERS CONTAINS 4 OR 5 1s --> IN A ROW!!!!!
 - screen resolution? (fullscreen or fixed window?)  
   
-  
-  probabilities
+  REFERENCES:
+  PROBABILITIES:
   https://www.mathcelebrity.com/yahtzee.php?pl=3+of+a+Kind
   https://www.datagenetics.com/blog/january42012/
   https://ctools.ece.utah.edu/Probability/Combinatorics/ProbCombEx3.pdf
