@@ -7,36 +7,35 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.RulesController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.RulesController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="60.0" layoutY="354.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="73.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="286.0" layoutY="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Button fx:id="returnButton" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#returnButton" prefHeight="49.0" prefWidth="102.0" style="-fx-background-color: none;" text="Back">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="140.0" layoutX="-3.0" layoutY="661.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1285.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="137.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1279.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="527.0" layoutX="-15.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1295.0" />
+      <Button fx:id="returnButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#returnButton" prefHeight="119.0" prefWidth="170.0" style="-fx-background-color: none;" text="Back">
          <font>
-            <Font name="Harlow Solid Italic" size="28.0" />
+            <Font name="Harlow Solid Italic" size="44.0" />
          </font>
       </Button>
-      <TextField editable="false" layoutX="14.0" layoutY="82.0" text="How to Play :">
+      <TextField editable="false" layoutX="18.0" layoutY="151.0" prefHeight="69.0" prefWidth="337.0" text="How to Play :">
          <font>
-            <Font name="Berlin Sans FB Bold" size="16.0" />
+            <Font name="Berlin Sans FB Bold" size="30.0" />
          </font>
       </TextField>
-      <TextArea editable="false" layoutX="14.0" layoutY="130.0" prefHeight="215.0" prefWidth="302.0" text="Roll 5 dice to start, and &#10;then select (any or no) &#10;dice to reroll.&#10;&#10;Aim to get specific &#10;combinations, each one &#10;awards different points. &#10;&#10;If none are available, &#10;zero points are given to &#10;any available category.&#10;&#10;Try to get the highest &#10;possbile score and beat&#10;your friends!&#10;">
+      <TextArea editable="false" layoutX="18.0" layoutY="243.0" prefHeight="400.0" prefWidth="530.0" text="Roll 5 dice to start, and &#10;then select (any or no) &#10;dice to reroll.&#10;&#10;Aim to get specific &#10;combinations, each one &#10;awards different points. &#10;&#10;If none are available, &#10;zero points are given to &#10;any available category.&#10;&#10;Try to get the highest &#10;possbile score and beat&#10;your friends!&#10;">
          <font>
-            <Font name="Berlin Sans FB Bold" size="21.0" />
+            <Font name="Berlin Sans FB Bold" size="28.0" />
          </font>
       </TextArea>
-      <TextField editable="false" layoutX="392.0" layoutY="82.0" text="Probabilities :">
+      <TextField editable="false" layoutX="728.0" layoutY="151.0" prefHeight="69.0" prefWidth="337.0" text="Probabilities :">
          <font>
-            <Font name="Berlin Sans FB Bold" size="16.0" />
+            <Font name="Berlin Sans FB Bold" size="30.0" />
          </font>
       </TextField>
-      <TextArea editable="false" layoutX="392.0" layoutY="130.0" prefHeight="215.0" prefWidth="302.0" text="Upper Section:&#10;Ones: Sum of all ones. - 0.5981%&#10;Twos: Sum of all twos. - 0.5981%&#10;Threes: Sum of all threes. - 0.5981%&#10;Fours: Sum of all fours. - 0.5981%&#10;Fives: Sum of all fives. - 0.5981%&#10;Sixes: Sum of all sixes. - 0.5981%&#10;&#10;Lower Section:&#10;Three of a Kind: Three die of the same face. &#10;(sum of all dice) - 0.15432%&#10;&#10;Four of a Kind: Four die of the same face. &#10;(sum of all dice) - 0.01929%&#10;&#10;Small Straight: Four die in increasing order. &#10;(30pts) - 0.12345%&#10;&#10;Large Straight: Five die in increasing order. &#10;(40pts) – 0.03086%&#10;&#10;Full House: Three die of same face + &#10;two die of same face (25pts) – 0.03858%&#10;&#10;Chance: The “Catch-All”, sum of all dice. &#10;- 0.45912%&#10;&#10;Yahtzee!: All dice have the same face. (50pts)&#10;- 0.00077%&#10;">
+      <TextArea editable="false" layoutX="729.0" layoutY="243.0" prefHeight="400.0" prefWidth="530.0" text="Upper Section:&#10;Ones: Sum of all ones. - 0.5981%&#10;Twos: Sum of all twos. - 0.5981%&#10;Threes: Sum of all threes. - 0.5981%&#10;Fours: Sum of all fours. - 0.5981%&#10;Fives: Sum of all fives. - 0.5981%&#10;Sixes: Sum of all sixes. - 0.5981%&#10;&#10;Lower Section:&#10;Three of a Kind: Three die of the same face. &#10;(sum of all dice) - 0.15432%&#10;&#10;Four of a Kind: Four die of the same face. &#10;(sum of all dice) - 0.01929%&#10;&#10;Small Straight: Four die in increasing order. &#10;(30pts) - 0.12345%&#10;&#10;Large Straight: Five die in increasing order. &#10;(40pts) – 0.03086%&#10;&#10;Full House: Three die of same face + &#10;two die of same face (25pts) – 0.03858%&#10;&#10;Chance: The “Catch-All”, sum of all dice. &#10;- 0.45912%&#10;&#10;Yahtzee!: All dice have the same face. (50pts)&#10;- 0.00077%&#10;">
          <font>
-            <Font name="Berlin Sans FB Bold" size="15.0" />
+            <Font name="Berlin Sans FB Bold" size="28.0" />
          </font>
       </TextArea>
    </children>
 </AnchorPane>
-
