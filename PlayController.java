@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -64,6 +66,7 @@ public class PlayController extends Player {
     @FXML private Button rollButton;
     
     // dice
+    @FXML private GridPane diceHandGridPane;
     @FXML private Button diceOne;
     @FXML private Button diceTwo;
     @FXML private Button diceThree;
@@ -71,21 +74,22 @@ public class PlayController extends Player {
     @FXML private Button diceFive;
     
     // Dice Images
-    @FXML private Image diceImg1 = new Image("1Face.png");
-    @FXML private Image diceImg2 = new Image("2Face.png");
-    @FXML private Image diceImg3 = new Image("3Face.png");
-    @FXML private Image diceImg4 = new Image("4Face.png");
-    @FXML private Image diceImg5 = new Image("5Face.png");
-    @FXML private Image diceImg6 = new Image("6Face.png");
-    @FXML private ImageView dice1 = new ImageView(diceImg1);
+    @FXML private Image diceImg1 = new Image("1Face.png", 86, 86, true, true); // Image(String url, double requestedWidth, double requestedHeight, boolean preserveRatio, boolean smooth)
+    @FXML private Image diceImg2 = new Image("2Face.png", 86, 86, true, true);
+    @FXML private Image diceImg3 = new Image("3Face.png", 86, 86, true, true);
+    @FXML private Image diceImg4 = new Image("4Face.png", 86, 86, true, true);
+    @FXML private Image diceImg5 = new Image("5Face.png", 86, 86, true, true);
+    @FXML private Image diceImg6 = new Image("6Face.png", 86, 86, true, true);
+    @FXML private ImageView dice1 = new ImageView(diceImg1); 
     @FXML private ImageView dice2 = new ImageView(diceImg2);
     @FXML private ImageView dice3 = new ImageView(diceImg3);
     @FXML private ImageView dice4 = new ImageView(diceImg4);
     @FXML private ImageView dice5 = new ImageView(diceImg5);
     @FXML private ImageView dice6 = new ImageView(diceImg6);
     
-    
     public ArrayList<Dice> hand = new ArrayList<>();
+    private Probability prob;
+    private Roll roll;
     
     // turn counter (for rolls 1, 2 and 3)
     private int turn = 1;
@@ -95,6 +99,8 @@ public class PlayController extends Player {
     // CHANGE PROB TEXT BASED ON POSSIBILITY IN TURN + 1
     // MAKE IT SO THAT THE PROBS ARE CALCULATED IMMEDIATELY AND IMAGES ARE CHANGED PER ROLL
     // figure out probabilities of upper section
+    // FIX ERROR, STACK OVERFLOW OF DICE AND PLAYER
+        // IT CALLS PLAYER INFINITELY FOR SOME REASON -> SO IT CREATES INFINITE DICE
     
     
     // RETURN TO MAIN MENU
@@ -108,6 +114,35 @@ public class PlayController extends Player {
     
     // SELECT A DICE FOR REROLL
     public void selectDice(ActionEvent event) throws IOException {
+        for (int i = 0; i < 5; i++) {
+            if (hand.get(i).isSelected()) {
+                hand.get(i).setSelected(false);
+                
+                // css turn off
+                switch (i) {
+                    case 0 -> diceOne.setStyle("-fx-border-color: black");
+                    case 1 -> diceTwo.setStyle("-fx-border-color: black");
+                    case 2 -> diceThree.setStyle("-fx-border-color: black");
+                    case 3 -> diceFour.setStyle("-fx-border-color: black");
+                    case 4 -> diceFive.setStyle("-fx-border-color: black");         
+                }
+                
+            } else if (hand.get(i).isSelected() == false) {
+                hand.get(i).setSelected(true);
+                
+                // css on
+                switch (i) {
+                    case 0 -> diceOne.setStyle("-fx-border-color: red");
+                    case 1 -> diceTwo.setStyle("-fx-border-color: red");
+                    case 2 -> diceThree.setStyle("-fx-border-color: red");
+                    case 3 -> diceFour.setStyle("-fx-border-color: red");
+                    case 4 -> diceFive.setStyle("-fx-border-color: red");         
+                }
+            }
+            
+            
+        }
+        
         // call isSelected method
         // see if it is true -> make false for that position and change css
         // if false -> make true and add red border to button
@@ -505,43 +540,132 @@ public class PlayController extends Player {
     
     // PROBABILITIES METHODS
     // HAVE ALL PROBS (5 ROWS)???
+    public ArrayList<Integer> counters() {
+        ArrayList<Integer> counters = new ArrayList<>();
+        counters.add(0); // 1
+        counters.add(0); // 2
+        counters.add(0); // 3
+        counters.add(0); // 4
+        counters.add(0); // 5
+        counters.add(0); // 6
+
+        for (int j = 0; j < hand.size(); j++) {
+            for (int i = 1; i < 7; i++) {
+                if (hand.get(j).getDiceValue() == i) {
+                    counters.set(i-1, counters.get(i-1) + 1); 
+                } 
+            }
+        }
+        
+        return counters;
+    }
+    
     public void onesProb(ActionEvent event) throws IOException { // figure this out
-        if (turn == 1 || turn == 2) {
-            double prob = 1/6;
-            onesProb.setText(String.valueOf(prob));
-        } else if (turn == 3) {
-            onesProb.setText("");
+        if (counters().contains(1)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
         }
     } 
     
-    ///
-    ///
-    ///
-    ///
-    ///
+    public void twosProb(ActionEvent event) throws IOException { // figure this out
+        if (counters().contains(2)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
+        }
+    }
     
-    public void TOAKProb(ActionEvent event) throws IOException {
+    public void threesProb(ActionEvent event) throws IOException { // figure this out
+        if (counters().contains(3)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
+        }
+    }
+    
+    public void foursProb(ActionEvent event) throws IOException { // figure this out
+        if (counters().contains(4)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
+        }
+    }
+    
+    public void fivesProb(ActionEvent event) throws IOException { // figure this out
+        if (counters().contains(5)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
+        }
+    }
+    
+    public void sixesProb(ActionEvent event) throws IOException { // figure this out
+        if (counters().contains(6)) {
+            onesProb.setText("100");
+        } else {
+            onesProb.setText(String.valueOf(1/6));
+        }
+    }
+    
+    public void TOAKProb() throws IOException {
+        if (roll.isAvailableFourOfAKind() == false) {
+            FHProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probThreeOfAKind(hand, turn));
+        TOAKProb.setText(value);
     }
     
     public void FOAKProb(ActionEvent event) throws IOException {
+        if (roll.isAvailableThreeOfAKind() == false) {
+            FHProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probFourOfAKind(hand, turn));
+        TOAKProb.setText(value);
     }
     
     public void FHProb(ActionEvent event) throws IOException {
+        if (roll.isAvailableFullHouse() == false) {
+            FHProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probFullHouse(hand, turn));
+        FHProb.setText(value);
     }
     
     public void SSProb(ActionEvent event) throws IOException {
+        if (roll.isAvailableSmallStraight() == false) {
+            SSProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probSmallStraight(hand, turn));
+        SSProb.setText(value);
     }
     
     public void LSProb(ActionEvent event) throws IOException {
+        if (roll.isAvailableSmallStraight() == false) {
+            LSProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probLargeStraight(hand, turn));
+        LSProb.setText(value);
     }
     
     public void chanceProb(ActionEvent event) throws IOException {
-        
+        if (roll.isAvailableChance() == false) {
+            chanceProb.setText("");
+            return;
+        } else {
+            chanceProb.setText("100");
+            return;
+        }
     }
     
     public void yahtzeeProb(ActionEvent event) throws IOException {
