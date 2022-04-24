@@ -6,21 +6,20 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.CreditsController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.CreditsController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="60.0" layoutY="354.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="73.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="286.0" layoutY="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="714.0" />
-      <Button fx:id="returnButton" layoutY="3.0" mnemonicParsing="false" onAction="#returnButton" prefHeight="49.0" prefWidth="102.0" style="-fx-background-color: none;" text="Back">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="126.0" layoutX="-3.0" layoutY="674.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="139.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1282.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="538.0" layoutX="-2.0" layoutY="138.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1282.0" />
+      <Button fx:id="returnButton" layoutY="3.0" mnemonicParsing="false" onAction="#returnButton" prefHeight="137.0" prefWidth="190.0" style="-fx-background-color: none;" text="Back">
          <font>
-            <Font name="Harlow Solid Italic" size="28.0" />
+            <Font name="Harlow Solid Italic" size="44.0" />
          </font>
       </Button>
-      <TextArea editable="false" layoutX="25.0" layoutY="88.0" prefHeight="252.0" prefWidth="663.0" text="A game created for the &#10;integrative project by Grayson &#10;Yen, Giuseppe Caruana and &#10;Noah Dohnani">
+      <TextArea editable="false" layoutX="25.0" layoutY="175.0" prefHeight="466.0" prefWidth="1218.0" text="A game created for the &#10;integrative project by Grayson &#10;Yen, Giuseppe Caruana and &#10;Noah Dohnani">
          <font>
-            <Font name="Berlin Sans FB Bold" size="38.0" />
+            <Font name="Berlin Sans FB Bold" size="65.0" />
          </font>
       </TextArea>
    </children>
 </AnchorPane>
-
