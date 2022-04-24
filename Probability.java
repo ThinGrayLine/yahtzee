@@ -21,7 +21,7 @@ public class Probability extends Roll {
     private String yahtzeeProb = "6/7776";
     
     // turn counter, instantiate a public turn counter in roll?
-    public int turn = 1;
+    //public int turn = 1;
     
     // states
     static double[][] state1 = {{1},{0}, {0}, {0}, {0}};
@@ -147,7 +147,7 @@ public class Probability extends Roll {
         return factored;
     }
     
-    public double probThreeOfAKind(ArrayList<Dice> list) {
+    public double probThreeOfAKind(ArrayList<Dice> list, int turn) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
@@ -174,11 +174,66 @@ public class Probability extends Roll {
                 break;
         }
         
-        return probabilities[2][0];
+        return probabilities[2][0]; // likeliness of rolling a three of a kind
         
     }
     
-    public double probFourOfAKind(ArrayList<Dice> list) {
+    public double probFullHouse(ArrayList<Dice> list, int turn) {
+        double[][] probabilities = new double[5][1];
+        switch (turn) {
+            case 1:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 2:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            case 3:
+                for (int i = 0; i < markovChain.length; i++) {
+                    for (int k = 0; k < markovChain[i].length; k++) {
+                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+                    }
+                }   break;
+            default:
+                break;
+        }
+        
+        if (findRowState(currentState) == 2) {
+            ArrayList<Integer> counters = new ArrayList<>();
+            counters.add(0); // 1
+            counters.add(0); // 2
+            counters.add(0); // 3
+            counters.add(0); // 4
+            counters.add(0); // 5
+            counters.add(0); // 6
+
+
+
+            for (int j = 0; j < list.size(); j++) {
+                for (int i = 1; i < 7; i++) {
+                    if (list.get(j).getDiceValue() == i) {
+                        counters.set(i-1, counters.get(i-1) + 1); 
+                    } 
+                }
+            }
+            
+            if (!counters.contains(2)) {
+                return 1/6; // if in full house state, but doesn't have 3 and 2 same face, return 1/6
+            } else if (counters.contains(2) && counters.contains(3)) {
+                return 100;
+            }
+        }
+        
+        return probabilities[3][0]; // likeliness of rolling into full house state
+         
+    }
+    
+    public double probFourOfAKind(ArrayList<Dice> list, int turn) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
@@ -205,10 +260,11 @@ public class Probability extends Roll {
                 break;
         }
         
-        return probabilities[3][0];
+        return probabilities[3][0]; // likeliness of rolling a four of a kind
+                
     }
     
-    public double probSmallStraight(ArrayList<Dice> list) {
+    public double probSmallStraight(ArrayList<Dice> list, int turn) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
@@ -235,11 +291,11 @@ public class Probability extends Roll {
                 break;
         }
         
-        // find way to get state value
-        return probabilities[findRowState(currentState)][0]; // gets state from currentState. +1 to state?
+        return probabilities[3][0]; // returns likeliness of rolling a large straight
+        
     }
     
-    public double probLargeStraight(ArrayList<Dice> list) {
+    public double probLargeStraight(ArrayList<Dice> list, int turn) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
@@ -266,16 +322,10 @@ public class Probability extends Roll {
                 break;
         }
         
-        // find way to get state value
-        return probabilities[findRowState(currentState)][0]; // gets state from currentState. +1 to state?
+        return probabilities[4][0]; // probability of rolling large straight
     }
     
-    // do we need this?
-    public double probChance(ArrayList<Dice> list) {
-        
-    }
-    
-    public double probYahtzee(ArrayList<Dice> list) {
+    public double probYahtzee(ArrayList<Dice> list, int turn) {
         // call findState method
         
         double[][] probabilities = new double[5][1];
@@ -377,4 +427,6 @@ public class Probability extends Roll {
         }
         return (int) currentState[row][0];
     }
+    
+    
 }
