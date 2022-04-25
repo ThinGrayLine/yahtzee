@@ -2,6 +2,7 @@ package YahtzeeProject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,6 +92,53 @@ public class PlayController extends Player implements Runnable {
     private Probability prob;
     private Roll roll;
     
+    // change the image in the Dice Buttons
+    // set so that this occurs first and THEN they can pick something to do
+    private Thread changeDiceMedia = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            // lock
+            setDice();
+            // finally { unlock } 
+        }
+    });
+    
+    // change border color when picked
+    private Thread selectDiceBorders = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            selectDice();
+        }
+    });
+    
+    private Thread probSetting = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                onesProb();
+                twosProb();
+                threesProb();
+                foursProb();
+                fivesProb();
+                sixesProb();
+                FHProb();
+                TOAKProb();
+                FOAKProb();
+                SSProb();
+                LSProb();
+                chanceProb();
+                yahtzeeProb();
+                // unlock?
+            } catch (IOException ex) {
+                System.out.println("IOException in probSetting.");
+                System.exit(0);
+            }
+            
+        }
+    });
+    
+    private ReentrantLock lock = new ReentrantLock();
+    
     // turn counter (for rolls 1, 2 and 3)
     private int turn = 1;
     
@@ -99,12 +147,24 @@ public class PlayController extends Player implements Runnable {
     // FIX ERROR, STACK OVERFLOW OF DICE AND PLAYER
         // IT CALLS PLAYER INFINITELY FOR SOME REASON -> SO IT CREATES INFINITE DICE
     
+    @FXML
+    public void initialize() {
+        Thread createPlayer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Player player = new Player();
+                setDice();
+            }
+        });
+        createPlayer.start();
+    }
+    
     @Override
     public void run() { // needs thread.start();
         // create instance of Player and run the thread using that?
         // javatpoint.com/java thread run method
         
-        // thread checks if dice is selected -> lock button
+        // thread checks if dice is selected -> lock button (CHECK IF ANY DICE IS SELECTED, IF NONE ARE, LOCK ROLL BUTTON FOR TURNS 2 AND 3)
         
         // thread select dice -> css
         
@@ -164,21 +224,25 @@ public class PlayController extends Player implements Runnable {
                     Dice dice = new Dice();
                     hand.add(dice);
                 }
+                changeDiceMedia.start();
+                
                 comboCheck();
-                setDice();
                 turn++;
             }
             case 2 -> {
                 // checks to see if a dice is selected, then rerolls it 
+                
+                
+                
                 for (int i = 0; i < 5; i++) {
                     if (hand.get(i).isSelected() == true) {
                         rollButton.setDisable(false);
                         hand.get(i).setDiceValue();
                     }   
                 }
+                changeDiceMedia.start();
                 
                 comboCheck();
-                setDice();
                 turn++;
             }
             case 3 -> {
@@ -189,32 +253,16 @@ public class PlayController extends Player implements Runnable {
                     }   
                 }
                 
-                
+                changeDiceMedia.start();
                 
                 comboCheck();
-                setDice();
-                turn = 1;
             }
             default -> {
             }
         }
         // runLater here? (cause GUI updating?)
-        // dice media
-        setDice();
         // probability setting
-        onesProb();
-        twosProb();
-        threesProb();
-        foursProb();
-        fivesProb();
-        sixesProb();
-        FHProb();
-        TOAKProb();
-        FOAKProb();
-        SSProb();
-        LSProb();
-        chanceProb();
-        yahtzeeProb();
+        probSetting.start();
         
     }
     
