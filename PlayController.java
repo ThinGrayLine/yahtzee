@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  *
  * @author gyenc
  */
-public class PlayController extends Player {
+public class PlayController extends Player implements Runnable {
     // attributes
     private Stage stage;
     private Scene scene;
@@ -96,12 +96,20 @@ public class PlayController extends Player {
     
     // methods
     // ******TO DO:******
-    // CHANGE PROB TEXT BASED ON POSSIBILITY IN TURN + 1
-    // MAKE IT SO THAT THE PROBS ARE CALCULATED IMMEDIATELY AND IMAGES ARE CHANGED PER ROLL
-    // figure out probabilities of upper section
     // FIX ERROR, STACK OVERFLOW OF DICE AND PLAYER
         // IT CALLS PLAYER INFINITELY FOR SOME REASON -> SO IT CREATES INFINITE DICE
     
+    @Override
+    public void run() { // needs thread.start();
+        // create instance of Player and run the thread using that?
+        // javatpoint.com/java thread run method
+        
+        // thread checks if dice is selected -> lock button
+        
+        // thread select dice -> css
+        
+        // roll -> change media and update values for points and probabilities, THEN allow the player to do stuff (lock and unlock)
+    }
     
     // RETURN TO MAIN MENU
     public void returnHome(ActionEvent event) throws IOException {
@@ -151,7 +159,7 @@ public class PlayController extends Player {
     // ROLLS DICE
     public void rollDice(ActionEvent event) throws IOException { ///////////////////////////////////////////////
         switch (turn) {
-            case 1:
+            case 1 -> {
                 for (int i = 0; i < 5; i++) {
                     Dice dice = new Dice();
                     hand.add(dice);
@@ -159,42 +167,55 @@ public class PlayController extends Player {
                 comboCheck();
                 setDice();
                 turn++;
-                break;
-            case 2:
-                // checks to see if a dice is selected, then rerolls it
+            }
+            case 2 -> {
+                // checks to see if a dice is selected, then rerolls it 
                 for (int i = 0; i < 5; i++) {
                     if (hand.get(i).isSelected() == true) {
+                        rollButton.setDisable(false);
                         hand.get(i).setDiceValue();
                     }   
                 }
                 
-                if (hand.get(0).isSelected() == false && hand.get(1).isSelected() == false && hand.get(2).isSelected() == false && hand.get(3).isSelected() == false && hand.get(4).isSelected() == false) {
-                    // EXIT LOOP
-                    
-                    turn = 1;
-                }
                 comboCheck();
                 setDice();
                 turn++;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 for (int i = 0; i < 5; i++) {
                     if (hand.get(i).isSelected() == true) {
+                        rollButton.setDisable(false);
                         hand.get(i).setDiceValue();
                     }   
                 }
-                if (hand.get(0).isSelected() == false && hand.get(1).isSelected() == false && hand.get(2).isSelected() == false && hand.get(3).isSelected() == false && hand.get(4).isSelected() == false) {
-                    // EXIT LOOP
-                    
-                    turn = 1;
-                }
+                
+                
+                
                 comboCheck();
                 setDice();
                 turn = 1;
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
+        // runLater here? (cause GUI updating?)
+        // dice media
+        setDice();
+        // probability setting
+        onesProb();
+        twosProb();
+        threesProb();
+        foursProb();
+        fivesProb();
+        sixesProb();
+        FHProb();
+        TOAKProb();
+        FOAKProb();
+        SSProb();
+        LSProb();
+        chanceProb();
+        yahtzeeProb();
+        
     }
     
     // check available combinations all at once, set them to true or false in multiple if statements
@@ -367,108 +388,48 @@ public class PlayController extends Player {
     // SETS IMAGES FOR FIVE DICE
     public void setDice() {
         switch (hand.get(0).getDiceValue()) {
-            case 1:
-                diceOne.setGraphic(dice1);
-                break;
-            case 2:
-                diceOne.setGraphic(dice2);
-                break;
-            case 3:    
-                diceOne.setGraphic(dice3);
-                break;
-            case 4:
-                diceOne.setGraphic(dice4);
-                break;
-            case 5:
-                diceOne.setGraphic(dice5);
-                break;
-            case 6:
-                diceOne.setGraphic(dice6);
-                break;    
+            case 1 -> diceOne.setGraphic(dice1);
+            case 2 -> diceOne.setGraphic(dice2);
+            case 3 -> diceOne.setGraphic(dice3);
+            case 4 -> diceOne.setGraphic(dice4);
+            case 5 -> diceOne.setGraphic(dice5);
+            case 6 -> diceOne.setGraphic(dice6);    
         }
         
         switch (hand.get(1).getDiceValue()) {
-            case 1:
-                diceTwo.setGraphic(dice1);
-                break;
-            case 2:
-                diceTwo.setGraphic(dice2);
-                break;
-            case 3:    
-                diceTwo.setGraphic(dice3);
-                break;
-            case 4:
-                diceTwo.setGraphic(dice4);
-                break;
-            case 5:
-                diceTwo.setGraphic(dice5);
-                break;
-            case 6:
-                diceTwo.setGraphic(dice6);
-                break;    
+            case 1 -> diceTwo.setGraphic(dice1);
+            case 2 -> diceTwo.setGraphic(dice2);
+            case 3 -> diceTwo.setGraphic(dice3);
+            case 4 -> diceTwo.setGraphic(dice4);
+            case 5 -> diceTwo.setGraphic(dice5);
+            case 6 -> diceTwo.setGraphic(dice6);    
         }
         
         switch (hand.get(2).getDiceValue()) {
-            case 1:
-                diceThree.setGraphic(dice1);
-                break;
-            case 2:
-                diceThree.setGraphic(dice2);
-                break;
-            case 3:    
-                diceThree.setGraphic(dice3);
-                break;
-            case 4:
-                diceThree.setGraphic(dice4);
-                break;
-            case 5:
-                diceThree.setGraphic(dice5);
-                break;
-            case 6:
-                diceThree.setGraphic(dice6);
-                break;    
+            case 1 -> diceThree.setGraphic(dice1);
+            case 2 -> diceThree.setGraphic(dice2);
+            case 3 -> diceThree.setGraphic(dice3);
+            case 4 -> diceThree.setGraphic(dice4);
+            case 5 -> diceThree.setGraphic(dice5);
+            case 6 -> diceThree.setGraphic(dice6);    
         }
         
         switch (hand.get(3).getDiceValue()) {
-            case 1:
-                diceFour.setGraphic(dice1);
-                break;
-            case 2:
-                diceFour.setGraphic(dice2);
-                break;
-            case 3:    
-                diceFour.setGraphic(dice3);
-                break;
-            case 4:
-                diceFour.setGraphic(dice4);
-                break;
-            case 5:
-                diceFour.setGraphic(dice5);
-                break;
-            case 6:
-                diceFour.setGraphic(dice6);
-                break;    
+            case 1 -> diceFour.setGraphic(dice1);
+            case 2 -> diceFour.setGraphic(dice2);
+            case 3 -> diceFour.setGraphic(dice3);
+            case 4 -> diceFour.setGraphic(dice4);
+            case 5 -> diceFour.setGraphic(dice5);
+            case 6 -> diceFour.setGraphic(dice6);    
         }
         
         switch (hand.get(4).getDiceValue()) {
-            case 1:
-                diceFive.setGraphic(dice1);
-                break;
-            case 2:
-                diceFive.setGraphic(dice2);
-                break;
-            case 3:    
-                diceFive.setGraphic(dice3);
-                break;
-            case 4:
-                diceFive.setGraphic(dice4);
-                break;
-            case 5:
-                diceFive.setGraphic(dice5);
-                break;
-            case 6:
-                diceFive.setGraphic(dice6);
-                break;    
+            case 1 -> diceFive.setGraphic(dice1);
+            case 2 -> diceFive.setGraphic(dice2);
+            case 3 -> diceFive.setGraphic(dice3);
+            case 4 -> diceFive.setGraphic(dice4);
+            case 5 -> diceFive.setGraphic(dice5);
+            case 6 -> diceFive.setGraphic(dice6);    
         }
     }
     
@@ -560,7 +521,7 @@ public class PlayController extends Player {
         return counters;
     }
     
-    public void onesProb(ActionEvent event) throws IOException { // figure this out
+    public void onesProb() throws IOException { // figure this out
         if (counters().contains(1)) {
             onesProb.setText("100");
         } else {
@@ -568,7 +529,7 @@ public class PlayController extends Player {
         }
     } 
     
-    public void twosProb(ActionEvent event) throws IOException { // figure this out
+    public void twosProb() throws IOException { // figure this out
         if (counters().contains(2)) {
             onesProb.setText("100");
         } else {
@@ -576,7 +537,7 @@ public class PlayController extends Player {
         }
     }
     
-    public void threesProb(ActionEvent event) throws IOException { // figure this out
+    public void threesProb() throws IOException { // figure this out
         if (counters().contains(3)) {
             onesProb.setText("100");
         } else {
@@ -584,7 +545,7 @@ public class PlayController extends Player {
         }
     }
     
-    public void foursProb(ActionEvent event) throws IOException { // figure this out
+    public void foursProb() throws IOException { // figure this out
         if (counters().contains(4)) {
             onesProb.setText("100");
         } else {
@@ -592,7 +553,7 @@ public class PlayController extends Player {
         }
     }
     
-    public void fivesProb(ActionEvent event) throws IOException { // figure this out
+    public void fivesProb() throws IOException { // figure this out
         if (counters().contains(5)) {
             onesProb.setText("100");
         } else {
@@ -600,7 +561,7 @@ public class PlayController extends Player {
         }
     }
     
-    public void sixesProb(ActionEvent event) throws IOException { // figure this out
+    public void sixesProb() throws IOException { // figure this out
         if (counters().contains(6)) {
             onesProb.setText("100");
         } else {
@@ -618,7 +579,7 @@ public class PlayController extends Player {
         TOAKProb.setText(value);
     }
     
-    public void FOAKProb(ActionEvent event) throws IOException {
+    public void FOAKProb() throws IOException {
         if (roll.isAvailableThreeOfAKind() == false) {
             FHProb.setText("");
             return;
@@ -628,7 +589,7 @@ public class PlayController extends Player {
         TOAKProb.setText(value);
     }
     
-    public void FHProb(ActionEvent event) throws IOException {
+    public void FHProb() throws IOException {
         if (roll.isAvailableFullHouse() == false) {
             FHProb.setText("");
             return;
@@ -638,7 +599,7 @@ public class PlayController extends Player {
         FHProb.setText(value);
     }
     
-    public void SSProb(ActionEvent event) throws IOException {
+    public void SSProb() throws IOException {
         if (roll.isAvailableSmallStraight() == false) {
             SSProb.setText("");
             return;
@@ -648,7 +609,7 @@ public class PlayController extends Player {
         SSProb.setText(value);
     }
     
-    public void LSProb(ActionEvent event) throws IOException {
+    public void LSProb() throws IOException {
         if (roll.isAvailableSmallStraight() == false) {
             LSProb.setText("");
             return;
@@ -658,7 +619,7 @@ public class PlayController extends Player {
         LSProb.setText(value);
     }
     
-    public void chanceProb(ActionEvent event) throws IOException {
+    public void chanceProb() throws IOException {
         if (roll.isAvailableChance() == false) {
             chanceProb.setText("");
             return;
@@ -668,51 +629,18 @@ public class PlayController extends Player {
         }
     }
     
-    public void yahtzeeProb(ActionEvent event) throws IOException {
+    public void yahtzeeProb() throws IOException {
+        if (roll.isAvailableYahtzee() == false) {
+            yahtzeeProb.setText("");
+            return;
+        }
         
+        String value = String.valueOf(prob.probYahtzee(hand, turn));
+        yahtzeeProb.setText(value);
     }
     
     
 /*
-    @FXML
-    public void initialize() {
-        Game gameStart = new Game();
-        Player p1 = new Player();
-        
-        //Player p2 = new Player();
-        // initialize p1 with dice?
-    }
-
-    // SET UPDATED DICE IMAGE DEPENDING ON DICE FACE  
-    // RUN IN INITIALIZE METHOD
-    // WHENEVER THE BUTTON IS PRESSED, DISPLAY DICE BASED ON ROLLED DICE
-    
-    (rollbutton).setOnClick(e -> {
-
-            Dice hand = new Roll();
-            switch (turn) {
-                    case 1:
-                            hand.reroll();
-
-                            isAvailable();
-                            turn++;
-                            break;
-                    case 2:
-                            isAvailable();
-                            if (hand.isSelected() == false) {
-                                    hand.reroll();
-                            }
-                            break;
-                    case 3: 
-                            (rollbutton.setColor...)
-                            isAvailable();
-                            turns = 0;
-                            break;
-                    default:
-                            break;
-            }
-
-    });
 
     ///////////////////////////////////////////////
     // do isavailable method all at once with a threadpool
