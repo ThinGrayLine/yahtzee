@@ -21,6 +21,10 @@ public class Player extends Game { // doesn't extend game anymore?
         }
         
     }
+
+    public ArrayList<Dice> getHand() {
+        return hand;
+    }
     
     private void setPlayerName(String name) {
         playerName = name;
@@ -64,3 +68,4 @@ public class Player extends Game { // doesn't extend game anymore?
     
     
 }
+
