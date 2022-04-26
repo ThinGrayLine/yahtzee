@@ -2,6 +2,7 @@ package YahtzeeProject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,18 +11,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  *
  * @author gyenc
  */
-public class PlayController extends Player implements Runnable {
+public class PlayController implements Runnable {
     // attributes
     private Stage stage;
     private Scene scene;
@@ -31,6 +36,36 @@ public class PlayController extends Player implements Runnable {
     private Player player;
     private boolean wasComboSelected = false; // HAVE THIS IN ALL COMBO METHODS, SET TRUE AND CHECK TURN COUNTER --> ENDS TURN. SET TO FALSE IN TURN COUNTER AND END LOOP.
     
+    // extras
+    @FXML private Text onesLabel;
+    @FXML private Text twosLabel;
+    @FXML private Text threesLabel;
+    @FXML private Text foursLabel;
+    @FXML private Text fivesLabel;
+    @FXML private Text sixesLabel;
+    @FXML private Text toakLabel;
+    @FXML private Text foakLabel;
+    @FXML private Text ssLabel;
+    @FXML private Text lsLabel;
+    @FXML private Text fhLabel;
+    @FXML private Text chanceLabel;
+    @FXML private Text yahtzeeLabel;        
+    @FXML private Label UPLabel;       
+    @FXML private Label LWLabel;       
+    @FXML private Label prob1Label;      
+    @FXML private Label prob2Label;       
+    @FXML private Label handLabel;       
+    @FXML private Label totalLabel;
+    @FXML private Text returnLabel;  
+    @FXML private GridPane upperSectionGrid;
+    @FXML private GridPane lowerSectionGrid;
+    @FXML private Rectangle rec1;
+    @FXML private Rectangle rec2;
+    @FXML private Rectangle background;
+    @FXML private Rectangle whiteBack;
+    @FXML private AnchorPane anchor;
+    @FXML private ImageView arrowBack;       
+            
     // choose a combo buttons
     @FXML private Button chooseOneButton;
     @FXML private Button chooseTwoButton;
@@ -66,6 +101,9 @@ public class PlayController extends Player implements Runnable {
     // roll button
     @FXML private Button rollButton;
     
+    // return
+    @FXML private Button returnButton;
+    
     // dice
     @FXML private GridPane diceHandGridPane;
     @FXML private Button diceOne;
@@ -75,12 +113,12 @@ public class PlayController extends Player implements Runnable {
     @FXML private Button diceFive;
     
     // Dice Images
-    @FXML private Image diceImg1 = new Image("1Face.png", 86, 86, true, true); // Image(String url, double requestedWidth, double requestedHeight, boolean preserveRatio, boolean smooth)
-    @FXML private Image diceImg2 = new Image("2Face.png", 86, 86, true, true);
-    @FXML private Image diceImg3 = new Image("3Face.png", 86, 86, true, true);
-    @FXML private Image diceImg4 = new Image("4Face.png", 86, 86, true, true);
-    @FXML private Image diceImg5 = new Image("5Face.png", 86, 86, true, true);
-    @FXML private Image diceImg6 = new Image("6Face.png", 86, 86, true, true);
+    @FXML private Image diceImg1 = new Image("/YahtzeeProject/1Face.png", 86, 86, true, true); // Image(String url, double requestedWidth, double requestedHeight, boolean preserveRatio, boolean smooth)
+    @FXML private Image diceImg2 = new Image("/YahtzeeProject/2Face.png", 86, 86, true, true); 
+    @FXML private Image diceImg3 = new Image("/YahtzeeProject/3Face.png", 86, 86, true, true);
+    @FXML private Image diceImg4 = new Image("/YahtzeeProject/4Face.png", 86, 86, true, true);
+    @FXML private Image diceImg5 = new Image("/YahtzeeProject/5Face.png", 86, 86, true, true);
+    @FXML private Image diceImg6 = new Image("/YahtzeeProject/6Face.png", 86, 86, true, true);
     @FXML private ImageView dice1 = new ImageView(diceImg1); 
     @FXML private ImageView dice2 = new ImageView(diceImg2);
     @FXML private ImageView dice3 = new ImageView(diceImg3);
@@ -88,9 +126,17 @@ public class PlayController extends Player implements Runnable {
     @FXML private ImageView dice5 = new ImageView(diceImg5);
     @FXML private ImageView dice6 = new ImageView(diceImg6);
     
-    public ArrayList<Dice> hand = new ArrayList<>();
+    public ArrayList<Dice> hand;
     private Probability prob;
     private Roll roll;
+    
+    private Thread createPlayer = new Thread(new Runnable() {
+       @Override
+       public void run() {
+           //Player player = new Player();
+           hand.addAll(player.getHand());
+       }
+    });
     
     // change the image in the Dice Buttons
     // set so that this occurs first and THEN they can pick something to do
@@ -98,11 +144,18 @@ public class PlayController extends Player implements Runnable {
         @Override
         public void run() {
             // lock
-            setDice();
+            lock.lock();
+            try {
+                setDice();
+            } finally {
+                lock.unlock();
+            }
+            
             // finally { unlock } 
         }
     });
     
+    /*
     // change border color when picked
     private Thread selectDiceBorders = new Thread(new Runnable() {
         @Override
@@ -110,10 +163,12 @@ public class PlayController extends Player implements Runnable {
             selectDice();
         }
     });
+    */
     
     private Thread probSetting = new Thread(new Runnable() {
         @Override
         public void run() {
+            
             try {
                 onesProb();
                 twosProb();
@@ -149,15 +204,16 @@ public class PlayController extends Player implements Runnable {
     
     @FXML
     public void initialize() {
-        Thread createPlayer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Player player = new Player();
-                setDice();
-            }
-        });
-        createPlayer.start();
+        lock.lock();
+        try {
+            createPlayer.start();
+            changeDiceMedia.start();
+        } finally {
+            lock.unlock();
+        }
+        setDice(); // lock here??
     }
+    
     
     @Override
     public void run() { // needs thread.start();
@@ -687,152 +743,4 @@ public class PlayController extends Player implements Runnable {
         yahtzeeProb.setText(value);
     }
     
-    
-/*
-
-    ///////////////////////////////////////////////
-    // do isavailable method all at once with a threadpool
-    // specify n and n-1 threadpools every time a combo is selected, meaning it looks through less each time something is chosen
-    // do n-1 depending on # of rounds passed
-
-    //Threadpool
-
-    public class isAvailable() implements Runnable {
-            // HOW TO PASS DICE HAND HERE!!!
-
-            public void run() {
-                    Roll roll = new Roll();
-                    if (isOnes(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isTwos(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isThrees(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isFours(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isFives(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isSixes(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isThreeOfAKind == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isFourOfAKind(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isSmallStraight(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isLargeStraight(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isChance(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-                    if (isYahtzee(hand) == false) {
-                            (onesbutton).setDisable(true);
-                    }
-
-
-            }
-
-            public static void main(String args[]) {
-                    (new Thread(new isAvailable())).start();
-            }
-
-    }
-
-    DISABLE http://www.learningaboutelectronics.com/Articles/How-to-disable-button-after-click-in-JavaFX.php
-
-    /////////////////////////////////////////////
-    (onesbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (twosbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (threesbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (foursbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (fivesbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (sixesbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (TOKbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (FOKbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (SSbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (LSbutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (chancebutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    (yahtzeebutton).setOnAction(e -> {
-            // add score
-            //disable button
-
-    });
-
-    */
 }
