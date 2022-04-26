@@ -8,19 +8,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YahtzeeProject.PlayController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="555.0" layoutX="-1.0" layoutY="129.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcffc6" height="561.0" layoutX="-1.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1192.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="131.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
-      <Pane layoutX="24.0" layoutY="11.0" prefHeight="52.0" prefWidth="200.0" />
-      <GridPane gridLinesVisible="true" layoutX="27.0" layoutY="179.0" prefHeight="302.0" prefWidth="282.0" AnchorPane.bottomAnchor="318.6">
+      <Rectangle fx:id="whiteBack" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="555.0" layoutX="-1.0" layoutY="129.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
+      <Rectangle fx:id="background" arcHeight="5.0" arcWidth="5.0" fill="#fcffc6" height="561.0" layoutX="-1.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1192.0" />
+      <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="131.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
+      <GridPane fx:id="upperSectionGrid" gridLinesVisible="true" layoutX="48.0" layoutY="179.0" prefHeight="302.0" prefWidth="282.0" AnchorPane.bottomAnchor="318.6">
          <columnConstraints>
             <ColumnConstraints halignment="LEFT" maxWidth="500.0" minWidth="10.0" prefWidth="88.8000244140625" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="46.0" />
@@ -35,32 +33,32 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ONES" textAlignment="CENTER" wrappingWidth="90.33672332763672">
+            <Text fx:id="onesLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="ONES" textAlignment="CENTER" wrappingWidth="90.33672332763672">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TWOS" textAlignment="CENTER" wrappingWidth="91.13671112060547" GridPane.rowIndex="1">
+            <Text fx:id="twosLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="TWOS" textAlignment="CENTER" wrappingWidth="91.13671112060547" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="THREES" textAlignment="CENTER" wrappingWidth="90.33678436279297" GridPane.rowIndex="2">
+            <Text fx:id="threesLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="THREES" textAlignment="CENTER" wrappingWidth="90.33678436279297" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FOURS" textAlignment="CENTER" wrappingWidth="89.53673553466797" GridPane.rowIndex="3">
+            <Text fx:id="foursLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="FOURS" textAlignment="CENTER" wrappingWidth="89.53673553466797" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FIVES" textAlignment="CENTER" wrappingWidth="89.53673553466797" GridPane.rowIndex="4">
+            <Text fx:id="fivesLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="FIVES" textAlignment="CENTER" wrappingWidth="89.53673553466797" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SIXES" textAlignment="CENTER" wrappingWidth="91.13665008544922" GridPane.rowIndex="5">
+            <Text fx:id="sixesLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="SIXES" textAlignment="CENTER" wrappingWidth="91.13665008544922" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -79,7 +77,7 @@
             <TextField fx:id="sixesProb" editable="false" prefHeight="50.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <GridPane gridLinesVisible="true" layoutX="447.0" layoutY="179.0" prefHeight="302.0" prefWidth="358.0">
+      <GridPane fx:id="lowerSectionGrid" gridLinesVisible="true" layoutX="447.0" layoutY="179.0" prefHeight="302.0" prefWidth="358.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="120.59996337890625" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="40.80002441406249" />
@@ -95,32 +93,32 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="THREE OF A KIND" textAlignment="CENTER" wrappingWidth="158.33667755126953">
+            <Text fx:id="toakLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="THREE OF A KIND" textAlignment="CENTER" wrappingWidth="158.33667755126953">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FOUR OF A KIND" textAlignment="CENTER" wrappingWidth="157.53675079345703" GridPane.rowIndex="1">
+            <Text fx:id="foakLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="FOUR OF A KIND" textAlignment="CENTER" wrappingWidth="157.53675079345703" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FULL HOUSE" textAlignment="CENTER" wrappingWidth="156.93680572509766" GridPane.rowIndex="2">
+            <Text fx:id="fhLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="FULL HOUSE" textAlignment="CENTER" wrappingWidth="156.93680572509766" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SMALL STRAIGHT" textAlignment="CENTER" wrappingWidth="156.93665313720703" GridPane.rowIndex="3">
+            <Text fx:id="ssLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="SMALL STRAIGHT" textAlignment="CENTER" wrappingWidth="156.93665313720703" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LARGE STRAIGHT" textAlignment="CENTER" wrappingWidth="157.53668975830078" GridPane.rowIndex="4">
+            <Text fx:id="lsLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="LARGE STRAIGHT" textAlignment="CENTER" wrappingWidth="157.53668975830078" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="YAHTZEE" textAlignment="CENTER" wrappingWidth="157.73670196533203" GridPane.rowIndex="6">
+            <Text fx:id="yahtzeeLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="YAHTZEE" textAlignment="CENTER" wrappingWidth="157.73670196533203" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CHANCE" textAlignment="CENTER" wrappingWidth="157.13660049438477" GridPane.rowIndex="5">
+            <Text fx:id="chanceLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="CHANCE" textAlignment="CENTER" wrappingWidth="157.13660049438477" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
@@ -140,13 +138,13 @@
             <TextField fx:id="LSProb" editable="false" prefHeight="42.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Label layoutX="447.0" layoutY="118.0" prefHeight="61.0" prefWidth="228.0" text="Lower Section" textAlignment="CENTER">
+      <Label fx:id="LWLabel" layoutX="447.0" layoutY="118.0" prefHeight="61.0" prefWidth="228.0" text="Lower Section" textAlignment="CENTER">
          <font>
             <Font name="Harlow Solid Italic" size="36.0" />
          </font>
       </Label>
       <Button fx:id="returnButton" layoutX="1157.0" layoutY="12.0" mnemonicParsing="false" onAction="#returnHome" prefHeight="103.0" prefWidth="106.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 2px;" />
-      <Text layoutX="1037.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RETURN" textAlignment="CENTER" wrappingWidth="344.4000244140625">
+      <Text fx:id="returnLabel" layoutX="1037.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RETURN" textAlignment="CENTER" wrappingWidth="344.4000244140625">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="19.0" />
          </font></Text>
@@ -169,42 +167,42 @@
             <Button fx:id="diceFive" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="4" />
          </children>
       </GridPane>
-      <Label layoutX="41.0" layoutY="497.0" prefHeight="18.0" prefWidth="254.0" text="Your hand:">
+      <Label fx:id="handLabel" layoutX="41.0" layoutY="497.0" prefHeight="18.0" prefWidth="254.0" text="Your hand:">
          <font>
             <Font name="Harlow Solid Italic" size="36.0" />
          </font>
       </Label>
-      <ImageView fitHeight="74.0" fitWidth="74.0" layoutX="1173.0" layoutY="19.0">
+      <ImageView fx:id="arrowBack" fitHeight="74.0" fitWidth="74.0" layoutX="1173.0" layoutY="19.0">
          <image>
             <Image url="@../../../../../../../../Downloads/Back_Arrow.svg.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="189.0" layoutY="481.0" prefHeight="26.0" prefWidth="130.0" text="Probabilities" textAlignment="CENTER">
+      <Label fx:id="prob1Label" alignment="CENTER" layoutX="218.0" layoutY="484.0" prefHeight="26.0" prefWidth="113.0" text="Probabilities" textAlignment="CENTER">
          <font>
             <Font name="Berlin Sans FB" size="21.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="894.0" layoutY="570.0" prefHeight="64.0" prefWidth="118.0" text="Total: " textAlignment="CENTER">
+      <Label fx:id="totalLabel" alignment="CENTER" layoutX="894.0" layoutY="570.0" prefHeight="64.0" prefWidth="118.0" text="Total: " textAlignment="CENTER">
          <font>
             <Font name="Harlow Solid Italic" size="37.0" />
          </font>
       </Label>
       <TextField fx:id="totalScoreText" editable="false" layoutX="1025.0" layoutY="572.0" prefHeight="64.0" prefWidth="113.0" style="-fx-border-color: black;" />
-      <Label alignment="CENTER" layoutX="674.0" layoutY="484.0" prefHeight="26.0" prefWidth="130.0" text="Probabilities" textAlignment="CENTER">
+      <Label fx:id="prob2Label" alignment="CENTER" layoutX="682.0" layoutY="484.0" prefHeight="26.0" prefWidth="122.0" text="Probabilities" textAlignment="CENTER">
          <font>
             <Font name="Berlin Sans FB" size="21.0" />
          </font>
       </Label>
-      <Button fx:id="rollButton" layoutX="611.0" layoutY="559.0" mnemonicParsing="false" onAction="#rollDIce" prefHeight="86.0" prefWidth="170.0" style="-fx-padding: 2px; -fx-background-color: orange; -fx-border-color: black; -fx-border-radius: 5px;" text="ROLL" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="rollButton" layoutX="611.0" layoutY="559.0" mnemonicParsing="false" onAction="#rollDice" prefHeight="86.0" prefWidth="170.0" style="-fx-padding: 2px; -fx-background-color: orange; -fx-border-color: black; -fx-border-radius: 5px;" text="ROLL" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed Bold" size="45.0" />
          </font>
       </Button>
-      <Label layoutX="27.0" layoutY="118.0" prefHeight="62.0" prefWidth="282.0" text="Upper Section" textAlignment="CENTER">
+      <Label fx:id="UPLabel" layoutX="27.0" layoutY="118.0" prefHeight="62.0" prefWidth="282.0" text="Upper Section" textAlignment="CENTER">
          <font>
             <Font name="Harlow Solid Italic" size="36.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="124.0" layoutX="-3.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
+      <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="ORANGE" height="124.0" layoutX="-3.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="1284.0" />
    </children>
 </AnchorPane>
