@@ -130,8 +130,13 @@ public class Probability extends Roll {
         // SAME EXPLANATION AS ROLL 2
     
     
-    public Probability() {
+    public Probability(ArrayList<Dice> hand) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            list.add(hand.get(i).getDiceValue());
+        }
         
+        findState(list);
     }
     
     /*
@@ -184,19 +189,19 @@ public class Probability extends Roll {
             case 1:
                 for (int i = 0; i < markovChain.length; i++) {
                     for (int k = 0; k < markovChain[i].length; k++) {
-                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;;
+                        probabilities[i][0] += markovChain[i][k]*currentState[k][0]*100.0;
                     }
                 }   break;
             case 2:
                 for (int i = 0; i < markovChain.length; i++) {
                     for (int k = 0; k < markovChain[i].length; k++) {
-                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;;
+                        probabilities[i][0] += markovChainSquared[i][k]*currentState[k][0]*100.0;
                     }
                 }   break;
             case 3:
                 for (int i = 0; i < markovChain.length; i++) {
                     for (int k = 0; k < markovChain[i].length; k++) {
-                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;;
+                        probabilities[i][0] += markovChainCubed[i][k]*currentState[k][0]*100.0;
                     }
                 }   break;
             default:
@@ -393,23 +398,13 @@ public class Probability extends Roll {
     public static double[][] findState(ArrayList<Integer> dice) {
         // determine state
         switch (diceFace(dice)) {
-            case 1:
-                currentState = state1;
-                break;
-            case 2:
-                currentState = state2;
-                break;
-            case 3:
-                currentState = state3;
-                break;
-            case 4:
-                currentState = state4;
-                break;
-            case 5:
-                currentState = state5;
-                break;
-            default:
-                break;
+            case 1 -> currentState = state1;
+            case 2 -> currentState = state2;
+            case 3 -> currentState = state3;
+            case 4 -> currentState = state4;
+            case 5 -> currentState = state5;
+            default -> {
+            }
         }
         
         return currentState;
