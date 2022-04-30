@@ -34,34 +34,39 @@ public class Roll extends Dice {
     private int fullHouseScore; 
     private int chanceScore;
     private int yahtzeeScore;
-    public static boolean availableOnes;       
-    public static boolean availableTwos;
-    public static boolean availableThrees; 
-    public static boolean availableFours; 
-    public static boolean availableFives; 
-    public static boolean availableSixes; 
-    public static boolean availableSmallStraight; 
-    public static boolean availableLargeStraight; 
-    public static boolean availableThreeOfAKind; 
-    public static boolean availableFourOfAKind; 
-    public static boolean availableFullHouse; 
-    public static boolean availableChance;
-    public static boolean availableYahtzee; 
-    public ArrayList<Dice> list = new ArrayList<Dice>(5);
+    public static boolean availableOnes = true;       
+    public static boolean availableTwos = true;
+    public static boolean availableThrees = true; 
+    public static boolean availableFours = true; 
+    public static boolean availableFives = true; 
+    public static boolean availableSixes = true; 
+    public static boolean availableSmallStraight = true; 
+    public static boolean availableLargeStraight = true; 
+    public static boolean availableThreeOfAKind = true; 
+    public static boolean availableFourOfAKind = true; 
+    public static boolean availableFullHouse = true; 
+    public static boolean availableChance = true;
+    public static boolean availableYahtzee = true; 
+    public ArrayList<Dice> list = new ArrayList<Dice>();
     
     
     private Probability probs;
     
-    public Roll() { // INITIALIZES ROLL ON TURN 1
+    public Roll() {
+        
+    }
+    
+    public Roll(ArrayList<Dice> hand) { // INITIALIZES ROLL ON TURN 1
         for (int i = 0; i < 5; i++) {
-            list.get(i).setDiceValue();
+            list.add(hand.get(i));
         }
+        
     } 
     
     public void reroll() { // USE FOR TURNS 2 AND 3 FOR ROLL BUTTONS
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isSelected() == true) {
-                list.get(i).isSelected();
+                list.get(i).setDiceValue();
             }
         }
         
@@ -273,7 +278,7 @@ public class Roll extends Dice {
         }
         
         // checks to see if count has a 2 and a 3 --> which is a full house
-        if (hand.contains(2) && hand.contains(3)) {
+        if (counters.contains(2) && counters.contains(3)) {
             return true;
         } else {
             return false;
@@ -495,55 +500,68 @@ public class Roll extends Dice {
     
     // getProbability method;
 
-    public static boolean isAvailableOnes() {
+    public boolean isAvailableOnes() {
+        isOnes(list);
         return availableOnes;
     }
 
-    public static boolean isAvailableTwos() {
+    public boolean isAvailableTwos() {
+        isTwos(list);
         return availableTwos;
     }
 
-    public static boolean isAvailableThrees() {
+    public boolean isAvailableThrees() {
+        isThrees(list);
         return availableThrees;
     }
 
-    public static boolean isAvailableFours() {
+    public boolean isAvailableFours() {
+        isFours(list);
         return availableFours;
     }
 
-    public static boolean isAvailableFives() {
+    public boolean isAvailableFives() {
+        isFives(list);
         return availableFives;
     }
 
-    public static boolean isAvailableSixes() {
+    public boolean isAvailableSixes() {
+        isSixes(list);
         return availableSixes;
     }
 
-    public static boolean isAvailableSmallStraight() {
+    public boolean isAvailableSmallStraight() {
+        isSmallStraight(list);
         return availableSmallStraight;
     }
 
-    public static boolean isAvailableLargeStraight() {
+    public boolean isAvailableLargeStraight() {
+        isLargeStraight(list);
         return availableLargeStraight;
     }
 
-    public static boolean isAvailableThreeOfAKind() {
+    public boolean isAvailableThreeOfAKind() {
+        isThreeOfAKind(list);
         return availableThreeOfAKind;
     }
 
-    public static boolean isAvailableFourOfAKind() {
+    public boolean isAvailableFourOfAKind() {
+        isFourOfAKind(list);
         return availableFourOfAKind;
     }
 
-    public static boolean isAvailableFullHouse() {
+    public boolean isAvailableFullHouse() {
+        isFullHouse(list);
         return availableFullHouse;
     }
 
-    public static boolean isAvailableChance() {
+    public boolean isAvailableChance() {
+        isChance(list);
         return availableChance;
     }
 
-    public static boolean isAvailableYahtzee() {
+    public boolean isAvailableYahtzee() {
+        isYahtzee(list);
         return availableYahtzee;
     }
 
