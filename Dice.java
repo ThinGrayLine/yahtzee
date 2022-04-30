@@ -1,4 +1,10 @@
-public class Dice extends Player {
+package YahtzeeProject;
+
+/**
+ *
+ * @author gyenc
+ */
+public class Dice /*extends Player*/ {
     private int diceValue;
     private boolean selected;
     
