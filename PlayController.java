@@ -128,8 +128,8 @@ public class PlayController implements Runnable {
     
     
     public ArrayList<Dice> hand = new ArrayList<>();
-    private Probability prob;
-    private Roll roll;
+    public static Probability gameProb;
+    public static Roll gameRoll = new Roll();
     
     
     private Thread createPlayer = new Thread(new Runnable() {
@@ -187,7 +187,7 @@ public class PlayController implements Runnable {
     private Thread selectDiceBorders = new Thread(new Runnable() {
         @Override
         public void run() {
-            selectDice();
+            selectDice(ActionEvent event);
         }
     });
     */
@@ -235,7 +235,7 @@ public class PlayController implements Runnable {
     private Condition handChanged = lock.newCondition();
     
     // turn counter (for rolls 1, 2 and 3)
-    private int turn = 1;
+    private int turn = 0;
     
     // methods
     // ******TO DO:******
@@ -251,6 +251,8 @@ public class PlayController implements Runnable {
                 changeDiceMedia.start();
             }
             
+            
+            
         } finally {
             lock.unlock();
         }
@@ -258,6 +260,10 @@ public class PlayController implements Runnable {
     
     @Override
     public void run() { // needs thread.start();
+        // fix this now
+        comboCheck();
+        probSetting.start();
+        
         /*
         hand.addAll(player.getHand());
         handChanged.signal();
@@ -281,46 +287,72 @@ public class PlayController implements Runnable {
         stage.show();
     }
     
-    // SELECT A DICE FOR REROLL
-    public void selectDice(ActionEvent event) throws IOException {
-        for (int i = 0; i < 5; i++) {
-            if (hand.get(i).isSelected()) {
-                hand.get(i).setSelected(false);
-                
-                // css turn off
-                switch (i) {
-                    case 0 -> dice1.setStyle("-fx-border-color: black");
-                    case 1 -> dice2.setStyle("-fx-border-color: black");
-                    case 2 -> dice3.setStyle("-fx-border-color: black");
-                    case 3 -> dice4.setStyle("-fx-border-color: black");
-                    case 4 -> dice5.setStyle("-fx-border-color: black");         
-                }
-                
-            } else if (hand.get(i).isSelected() == false) {
-                hand.get(i).setSelected(true);
-                
-                // css on
-                switch (i) {
-                    case 0 -> dice1.setStyle("-fx-border-color: red");
-                    case 1 -> dice2.setStyle("-fx-border-color: red");
-                    case 2 -> dice3.setStyle("-fx-border-color: red");
-                    case 3 -> dice4.setStyle("-fx-border-color: red");
-                    case 4 -> dice5.setStyle("-fx-border-color: red");         
-                }
-            }
-            
-            
-        }
+    
+    // change css for dice 1
+    public void selectDice1(ActionEvent event) throws IOException {
+        if (hand.get(0).isSelected()) {
+            hand.get(0).setSelected(false);
+            diceOne.setStyle("-fx-border-color: black");
+        } else if (hand.get(0).isSelected() == false) {
+            hand.get(0).setSelected(true);
+            diceOne.setStyle("-fx-border-color: red");
+        }  
         
-        // call isSelected method
-        // see if it is true -> make false for that position and change css
-        // if false -> make true and add red border to button
+    }            
+    
+    // change css for dice 2
+    public void selectDice2(ActionEvent event) throws IOException {
+        if (hand.get(1).isSelected()) {
+            hand.get(1).setSelected(false);
+            diceTwo.setStyle("-fx-border-color: black");
+        } else if (hand.get(1).isSelected() == false) {
+            hand.get(1).setSelected(true);
+            diceTwo.setStyle("-fx-border-color: red");
+        }  
+        
+    }
+    
+    // change css for dice 3
+    public void selectDice3(ActionEvent event) throws IOException {
+        if (hand.get(2).isSelected()) {
+            hand.get(2).setSelected(false);
+            diceThree.setStyle("-fx-border-color: black");
+        } else if (hand.get(2).isSelected() == false) {
+            hand.get(2).setSelected(true);
+            diceThree.setStyle("-fx-border-color: red");
+        }  
+        
+    }
+    
+    // change css for dice 4
+    public void selectDice4(ActionEvent event) throws IOException {
+        if (hand.get(3).isSelected()) {
+            hand.get(3).setSelected(false);
+            diceFour.setStyle("-fx-border-color: black");
+        } else if (hand.get(3).isSelected() == false) {
+            hand.get(3).setSelected(true);
+            diceFour.setStyle("-fx-border-color: red");
+        }  
+        
+    }
+    
+    // change css for dice 5
+    public void selectDice5(ActionEvent event) throws IOException {
+        if (hand.get(4).isSelected()) {
+            hand.get(4).setSelected(false);
+            diceFive.setStyle("-fx-border-color: black");
+        } else if (hand.get(4).isSelected() == false) {
+            hand.get(4).setSelected(true);
+            diceFive.setStyle("-fx-border-color: red");
+        }  
+        
     }
     
     // ROLLS DICE
     public void rollDice(ActionEvent event) throws IOException { ///////////////////////////////////////////////
+        
         switch (turn) {
-            case 1 -> {
+            case 0 -> {
                 
                 for (int i = 0; i < 5; i++) {
                     Dice dice = new Dice();
@@ -335,27 +367,29 @@ public class PlayController implements Runnable {
                 comboCheck();
                 turn++;
             }
-            case 2 -> {
+            case 1 -> {
                 // checks to see if a dice is selected, then rerolls it 
                 
                 
                 
                 for (int i = 0; i < 5; i++) {
-                    if (hand.get(i).isSelected() == true) {
+                    if (hand.get(i).isSelected() == false) {
                         rollButton.setDisable(false);
                         hand.get(i).setDiceValue();
                     }   
                 }
                 
+                /*
                 synchronized (this) {
                     changeDiceMedia.run();
                 }
+                */
                 
-                
+                setDiceReroll();
                 comboCheck();
                 turn++;
             }
-            case 3 -> {
+            case 2 -> {
                 for (int i = 0; i < 5; i++) {
                     if (hand.get(i).isSelected() == true) {
                         rollButton.setDisable(false);
@@ -367,9 +401,12 @@ public class PlayController implements Runnable {
                     changeDiceMedia.run();
                 }
                 
+                setDiceReroll();
                 comboCheck();
             }
             default -> {
+                rollButton.setDisable(true);
+                
             }
         }
         // runLater here? (cause GUI updating?)
@@ -384,7 +421,12 @@ public class PlayController implements Runnable {
         Roll roll = new Roll(hand);
         
         if (roll.isOnes(hand) == false) {
-            chooseOneButton.setDisable(true);
+            if (roll.isAvailableOnes() == false) {
+                
+            }
+            
+            //chooseOneButton.setDisable(true);
+            chooseOneButton.setText("0");
         } else {
             chooseOneButton.setDisable(false);
             int numOfOne = 0;
@@ -400,7 +442,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isTwos(hand) == false) {
-            chooseTwoButton.setDisable(true);
+            //chooseTwoButton.setDisable(true);
+            chooseTwoButton.setText("0");
         } else {
             chooseTwoButton.setDisable(false);
             int numOfTwo = 0;
@@ -417,7 +460,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isThrees(hand) == false) {
-            chooseThreeButton.setDisable(true);
+            //chooseThreeButton.setDisable(true);
+            chooseThreeButton.setText("0");
         } else {
             chooseThreeButton.setDisable(false);
             int numOfThree = 0;
@@ -433,7 +477,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isFours(hand) == false) {
-            chooseFourButton.setDisable(true);
+            //chooseFourButton.setDisable(true);
+            chooseFourButton.setText("0");
         } else {
             chooseFourButton.setDisable(false);
             int numOfFour = 0;
@@ -449,7 +494,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isFives(hand) == false) {
-            chooseFiveButton.setDisable(true);
+            //chooseFiveButton.setDisable(true);
+            chooseFiveButton.setText("0");
         } else {
             chooseFiveButton.setDisable(false);
             int numOfFive = 0;
@@ -465,7 +511,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isSixes(hand) == false) {
-            chooseSixButton.setDisable(true);
+            //chooseSixButton.setDisable(true);
+            chooseSixButton.setText("0");
         } else {
             chooseSixButton.setDisable(false);
             int numOfSix = 0;
@@ -482,9 +529,9 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isThreeOfAKind(hand) == false) {
-            chooseTOAKButton.setDisable(true);
+            //chooseTOAKButton.setDisable(true);
+            chooseTOAKButton.setText("0");
         } else {
-            chooseTOAKButton.setDisable(false);
             chooseTOAKButton.setDisable(false);
             int toak = 0;
             for (int i = 0; i < 5; i++) {
@@ -494,32 +541,37 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isFourOfAKind(hand) == false) {
-            chooseFOAKButton.setDisable(true);
+            //chooseFOAKButton.setDisable(true);
+            chooseFOAKButton.setText("0");
         } else {
             chooseFOAKButton.setDisable(false);
             int foak = 0;
             for (int i = 0; i < 5; i++) {
                 foak += hand.get(i).getDiceValue();
             }
+            
             chooseFOAKButton.setText(String.valueOf(foak));
         }
         
         if (roll.isSmallStraight(hand) == false) {
-            chooseSSButton.setDisable(true);
+            //chooseSSButton.setDisable(true);
+            chooseSSButton.setText("0");
         } else {
             chooseSSButton.setDisable(false);
             chooseSSButton.setText(String.valueOf(30));
         }
         
         if (roll.isLargeStraight(hand) == false) {
-            chooseLSButton.setDisable(true);
+            //chooseLSButton.setDisable(true);
+            chooseLSButton.setText("0");
         } else {
             chooseLSButton.setDisable(false);
             chooseLSButton.setText(String.valueOf(40));
         }
         
         if (roll.isFullHouse(hand) == false) {
-            chooseFHButton.setDisable(true);
+            //chooseFHButton.setDisable(true);
+            chooseFHButton.setText("0");
         } else {
             chooseFHButton.setDisable(false);
             chooseFHButton.setText(String.valueOf(25));
@@ -527,7 +579,8 @@ public class PlayController implements Runnable {
                 
         
         if (roll.isChance(hand) == false) {
-            chooseChanceButton.setDisable(true);
+            //chooseChanceButton.setDisable(true);
+            chooseChanceButton.setText("0");
         } else {
             chooseChanceButton.setDisable(false);
             int chance = 0;
@@ -538,7 +591,8 @@ public class PlayController implements Runnable {
         }
         
         if (roll.isYahtzee(hand) == false) {
-            chooseYahtzeeButton.setDisable(true);
+            //chooseYahtzeeButton.setDisable(true);
+            chooseYahtzeeButton.setText("0");
         } else {
             chooseYahtzeeButton.setDisable(false);
             chooseYahtzeeButton.setText(String.valueOf(50));
@@ -627,70 +681,237 @@ public class PlayController implements Runnable {
         }
     }
     
+    public void setDiceReroll() {
+        Dice newDice1 = new Dice();
+        
+        if (hand.get(0).isSelected() == false) {
+            switch (newDice1.getDiceValue()) {
+                case 1 -> diceOne.setGraphic(dice1);
+                case 2 -> diceOne.setGraphic(dice2);
+                case 3 -> diceOne.setGraphic(dice3);
+                case 4 -> diceOne.setGraphic(dice4);
+                case 5 -> diceOne.setGraphic(dice5);
+                case 6 -> diceOne.setGraphic(dice6); 
+            }
+        }
+        
+        Dice newDice2 = new Dice();
+        if (hand.get(1).isSelected() == false) {
+            switch (newDice2.getDiceValue()) {
+                case 1 -> diceTwo.setGraphic(dice1);
+                case 2 -> diceTwo.setGraphic(dice2);
+                case 3 -> diceTwo.setGraphic(dice3);
+                case 4 -> diceTwo.setGraphic(dice4);
+                case 5 -> diceTwo.setGraphic(dice5);
+                case 6 -> diceTwo.setGraphic(dice6); 
+            }
+        }
+        
+        Dice newDice3 = new Dice();
+        if (hand.get(2).isSelected() == false) {
+            switch (newDice3.getDiceValue()) {
+                case 1 -> diceThree.setGraphic(dice1);
+                case 2 -> diceThree.setGraphic(dice2);
+                case 3 -> diceThree.setGraphic(dice3);
+                case 4 -> diceThree.setGraphic(dice4);
+                case 5 -> diceThree.setGraphic(dice5);
+                case 6 -> diceThree.setGraphic(dice6); 
+            }
+        }
+        
+        Dice newDice4 = new Dice();
+        if (hand.get(3).isSelected() == false) {
+            switch (newDice4.getDiceValue()) {
+                case 1 -> diceFour.setGraphic(dice1);
+                case 2 -> diceFour.setGraphic(dice2);
+                case 3 -> diceFour.setGraphic(dice3);
+                case 4 -> diceFour.setGraphic(dice4);
+                case 5 -> diceFour.setGraphic(dice5);
+                case 6 -> diceFour.setGraphic(dice6); 
+            }
+        }
+        
+        Dice newDice5 = new Dice();
+        if (hand.get(4).isSelected() == false) {
+            switch (newDice5.getDiceValue()) {
+                case 1 -> diceFive.setGraphic(dice1);
+                case 2 -> diceFive.setGraphic(dice2);
+                case 3 -> diceFive.setGraphic(dice3);
+                case 4 -> diceFive.setGraphic(dice4);
+                case 5 -> diceFive.setGraphic(dice5);
+                case 6 -> diceFive.setGraphic(dice6); 
+            }
+        }
+        
+    }
+    
     // CHOOSE COMBINATIONS METHODS
     public void chooseOne(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseOnes(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseOnes(hand);
+        gameRoll.setAvailableOnes(false);
+        
+        gameRoll.setOnesScore(Integer.parseInt(chooseOneButton.getText()));
+        
+        chooseOneButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseTwo(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseTwos(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseTwos(hand);
+        gameRoll.setAvailableTwos(false);
+        
+        gameRoll.setTwosScore(Integer.parseInt(chooseTwoButton.getText()));
+        
+        chooseTwoButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseThree(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseThrees(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseThrees(hand);
+        gameRoll.setAvailableThrees(false);
+        
+        gameRoll.setThreesScore(Integer.parseInt(chooseThreeButton.getText()));
+        
+        chooseThreeButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseFour(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseFours(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseFours(hand);
+        gameRoll.setAvailableFours(false);
+        
+        gameRoll.setFoursScore(Integer.parseInt(chooseFourButton.getText()));
+        
+        chooseFourButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
    
     public void chooseFive(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseFives(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseFives(hand);
+        gameRoll.setAvailableFives(false);
+        
+        gameRoll.setFivesScore(Integer.parseInt(chooseFiveButton.getText()));
+        
+        chooseFiveButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseSix(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseSixes(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseSixes(hand);
+        gameRoll.setAvailableSixes(false);
+        
+        gameRoll.setSixesScore(Integer.parseInt(chooseSixButton.getText()));
+        
+        chooseSixButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseSS(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseSmallStraight(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseSmallStraight(hand);
+        gameRoll.setAvailableSmallStraight(false);
+        
+        gameRoll.setSmallStraightScore(Integer.parseInt(chooseSSButton.getText()));
+        
+        chooseSSButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseLS(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseLargeStraight(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseLargeStraight(hand);
+        gameRoll.setAvailableLargeStraight(false);
+        
+        gameRoll.setLargeStraightScore(Integer.parseInt(chooseLSButton.getText()));
+        
+        chooseLSButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseTOAK(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseThreeOfAKind(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseThreeOfAKind(hand);
+        gameRoll.setAvailableThreeOfAKind(false);
+        
+        gameRoll.setThreeOfAKindScore(Integer.parseInt(chooseTOAKButton.getText()));
+        
+        chooseTOAKButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseFOAK(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseFourOfAKind(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseFourOfAKind(hand);
+        gameRoll.setAvailableFourOfAKind(false);
+        
+        gameRoll.setFourOfAKindScore(Integer.parseInt(chooseFOAKButton.getText()));
+        
+        chooseFOAKButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseFH(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseFullHouse(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseFullHouse(hand);
+        gameRoll.setAvailableFullHouse(false);
+        
+        gameRoll.setFullHouseScore(Integer.parseInt(chooseFHButton.getText()));
+        
+        chooseFHButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseChance(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseChance(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseChance(hand);
+        gameRoll.setAvailableChance(false);
+        
+        gameRoll.setChanceScore(Integer.parseInt(chooseChanceButton.getText()));
+        chooseChanceButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     public void chooseYahtzee(ActionEvent event) throws IOException {
-        Roll roll = new Roll();
-        roll.chooseYahtzee(hand);
+        //Roll roll = new Roll();
+        gameRoll.chooseYahtzee(hand);
+        gameRoll.setAvailableYahtzee(false);
+        
+        gameRoll.setYahtzeeScore(Integer.parseInt(chooseYahtzeeButton.getText()));
+        
+        chooseYahtzeeButton.setDisable(true);
+        rollButton.setDisable(false);
+        turn = 0;
+        scoreTotal();
     }
     
     // PROBABILITIES METHODS
@@ -703,7 +924,9 @@ public class PlayController implements Runnable {
         counters.add(0); // 4
         counters.add(0); // 5
         counters.add(0); // 6
-
+        
+        
+        
         for (int j = 0; j < hand.size(); j++) {
             for (int i = 1; i < 7; i++) {
                 if (hand.get(j).getDiceValue() == i) {
@@ -716,7 +939,6 @@ public class PlayController implements Runnable {
     }
     
     public void onesProb() throws IOException { // figure this out
-        System.out.println("ones");
         if (counters(hand).get(0) >= 1) {
             onesProb.setText("100");
         } else {
@@ -726,7 +948,6 @@ public class PlayController implements Runnable {
     } 
     
     public void twosProb() throws IOException { // figure this out
-        System.out.println("twos");
         if (counters(hand).get(1) >= 1) {
             twosProb.setText("100");
         } else {
@@ -736,7 +957,6 @@ public class PlayController implements Runnable {
     }
     
     public void threesProb() throws IOException { // figure this out
-        System.out.println("threes");
         if (counters(hand).get(2) >= 1) {
             threesProb.setText("100");
         } else {
@@ -746,7 +966,6 @@ public class PlayController implements Runnable {
     }
     
     public void foursProb() throws IOException { // figure this out
-        System.out.println("fours");
         if (counters(hand).get(3) >= 1) {
             foursProb.setText("100");
         } else {
@@ -756,7 +975,6 @@ public class PlayController implements Runnable {
     }
     
     public void fivesProb() throws IOException { // figure this out
-        System.out.println("fives");
         if (counters(hand).get(4) >= 1) {
             fivesProb.setText("100");
         } else {
@@ -766,7 +984,6 @@ public class PlayController implements Runnable {
     }
     
     public void sixesProb() throws IOException { // figure this out
-        System.out.println("sixes");
         if (counters(hand).get(5) >= 1) {
             sixesProb.setText("100");
         } else {
@@ -776,85 +993,92 @@ public class PlayController implements Runnable {
     }
     
     public void TOAKProb() throws IOException {
-        System.out.println("toak");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableThreeOfAKind() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableThreeOfAKind() == false) {
             TOAKProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probThreeOfAKind(hand, turn));
-        TOAKProb.setText(value);
+        gameProb = new Probability(hand);
+        //String.format("%.6g%n", prob.probThreeOfAKind(hand, turn));
+        //String value = String.valueOf(prob.probThreeOfAKind(hand, turn));
+        TOAKProb.setText(String.format("%.5g%n", gameProb.probThreeOfAKind(hand, turn)));
         
-        /*
-        if (counters(hand).contains(3) || counters(hand).contains(4) || counters(hand).contains(5)) {
-            TOAKProb.setText(String.valueOf(100));
-        }*/
+        if (gameRoll.isThreeOfAKind(hand) == true) {
+            TOAKProb.setText("100.00");
+        }
+        
     }
     
     public void FOAKProb() throws IOException {
-        System.out.println("foak");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableFourOfAKind() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableFourOfAKind() == false) {
             FOAKProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probFourOfAKind(hand, turn));
-        FOAKProb.setText(value);
+        gameProb = new Probability(hand);
+        FOAKProb.setText(String.format("%.5g%n", gameProb.probFourOfAKind(hand, turn)));
         
-        /*
-        if (counters(hand).contains(3) || counters(hand).contains(4) || counters(hand).contains(5)) {
-            FOAKProb.setText(String.valueOf(100));
-        }*/
+        if (gameRoll.isFourOfAKind(hand) == true) {
+            FOAKProb.setText("100.00");
+        }
     }
     
     public void FHProb() throws IOException {
-        System.out.println("fh");
-        Roll roll = new Roll(hand);
-        
-        if (roll.isAvailableFullHouse() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableFullHouse() == false) {
             FHProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probFullHouse(hand, turn));
-        FHProb.setText(value);
+        gameProb = new Probability(hand);
+        FHProb.setText(String.format("%.5g%n", gameProb.probFullHouse(hand, turn)));
+        
+        if (gameRoll.isFullHouse(hand) == true) {
+            FHProb.setText("100.00");
+        }
     }
     
     public void SSProb() throws IOException {
-        System.out.println("ss");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableSmallStraight() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableSmallStraight() == false) {
             SSProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probSmallStraight(hand, turn));
-        SSProb.setText(value);
+        gameProb = new Probability(hand);
+        SSProb.setText(String.format("%.5g%n", gameProb.probSmallStraight(hand, turn)));
+        
+        if (gameRoll.isSmallStraight(hand) == true) {
+            SSProb.setText("100.00");
+        }
     }
     
     public void LSProb() throws IOException {
-        System.out.println("ls");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableLargeStraight() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableLargeStraight() == false) {
             LSProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probLargeStraight(hand, turn));
-        LSProb.setText(value);
+        gameProb = new Probability(hand);
+        LSProb.setText(String.format("%.5g%n", gameProb.probLargeStraight(hand, turn)));
+        
+        if (gameRoll.isLargeStraight(hand) == true) {
+            LSProb.setText("100.00");
+        }
     }
     
     public void chanceProb() throws IOException {
-        System.out.println("chance");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableChance() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableChance() == false) {
             chanceProb.setText("");
         } else {
             chanceProb.setText("100");
@@ -862,16 +1086,29 @@ public class PlayController implements Runnable {
     }
     
     public void yahtzeeProb() throws IOException {
-        System.out.println("yahtzee");
-        Roll roll = new Roll(hand);
-        if (roll.isAvailableYahtzee() == false) {
+        //Roll roll = new Roll(hand);
+        gameRoll = new Roll(hand);
+        if (gameRoll.isAvailableYahtzee() == false) {
             yahtzeeProb.setText("");
             return;
         }
         
-        Probability prob = new Probability(hand);
-        String value = String.valueOf(prob.probYahtzee(hand, turn));
-        yahtzeeProb.setText(value);
+        Probability gameProb = new Probability(hand);
+        yahtzeeProb.setText(String.format("%.5g%n", gameProb.probYahtzee(hand, turn)));
+        
+        if (gameRoll.isYahtzee(hand) == true) {
+            yahtzeeProb.setText("100.00");
+        }
+    }
+    
+    public void scoreTotal() {
+        int total = 0;
+        //Roll roll = new Roll(hand);
+        if (gameRoll.isAvailableOnes() == false && gameRoll.isAvailableTwos() == false && gameRoll.isAvailableThrees() == false && gameRoll.isAvailableFours() == false && gameRoll.isAvailableFives() == false && gameRoll.isAvailableSixes() == false && gameRoll.isAvailableSmallStraight() == false && gameRoll.isAvailableLargeStraight() == false && gameRoll.isAvailableThreeOfAKind() == false && gameRoll.isAvailableFourOfAKind() == false && gameRoll.isAvailableFullHouse() == false && gameRoll.isAvailableChance() == false && gameRoll.isAvailableYahtzee() == false) {
+            total = gameRoll.getOnes() + gameRoll.getTwos() + gameRoll.getThrees() + gameRoll.getFours() + gameRoll.getFives() + gameRoll.getSixes() + gameRoll.getSmallStraight() + gameRoll.getLargeStraight() + gameRoll.getThreeOfAKind() + gameRoll.getFourOfAKind() + gameRoll.getFullHouse() + gameRoll.getChance() + gameRoll.getYahtzee();
+            totalScoreText.setText(String.valueOf(total));
+        } 
+        
     }
     
 }
