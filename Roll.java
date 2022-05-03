@@ -77,7 +77,15 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
+        /*
+        ArrayList<Dice> hand = new ArrayList<>(5);
+        for (int i = 0; i < 5; i++) {
+            System.out.print(list.get(i).getDiceValue() + " ");
+            hand.add(list.get(i));
+        }
+        */
+        
+        for (int i = 0; i < 5; i++) {
             int num = list.get(i).getDiceValue();
             if (num == 1) {
                 return true;
@@ -92,7 +100,7 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             int num = list.get(i).getDiceValue();
             if (num == 2) {
                 return true;
@@ -107,8 +115,13 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
-            int num = list.get(i).getDiceValue();
+        ArrayList<Dice> hand = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            hand.add(list.get(i));
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int num = hand.get(i).getDiceValue();
             if (num == 3) {
                 return true;
             }
@@ -122,8 +135,13 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
-            int num = list.get(i).getDiceValue();
+        ArrayList<Dice> hand = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            hand.add(list.get(i));
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int num = hand.get(i).getDiceValue();
             if (num == 4) {
                 return true;
             }
@@ -137,8 +155,13 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
-            int num = list.get(i).getDiceValue();
+        ArrayList<Dice> hand = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            hand.add(list.get(i));
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int num = hand.get(i).getDiceValue();
             if (num == 5) {
                 return true;
             }
@@ -152,8 +175,13 @@ public class Roll extends Dice {
             return false;
         }
         
-        for (int i = 0; i < 6; i++) {
-            int num = list.get(i).getDiceValue();
+        ArrayList<Dice> hand = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            hand.add(list.get(i));
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int num = hand.get(i).getDiceValue();
             if (num == 6) {
                 return true;
             }
@@ -170,15 +198,33 @@ public class Roll extends Dice {
         
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
-        if (probs.diceFace(hand) >= 3) {
+        // counters
+        ArrayList<Integer> counters = new ArrayList<>();
+        counters.add(0); // 1
+        counters.add(0); // 2
+        counters.add(0); // 3
+        counters.add(0); // 4
+        counters.add(0); // 5
+        counters.add(0); // 6
+        
+        for (int j = 0; j < hand.size(); j++) {
+            for (int i = 1; i < 7; i++) {
+                if (hand.get(j) == i) {
+                    counters.set(i-1, counters.get(i-1) + 1); 
+                } 
+            }
+        }
+
+        if (counters.contains(3) || counters.contains(4) || counters.contains(5)) {
             return true;
         } else {
             return false;
         }
+        
     }
     
     public boolean isFourOfAKind(ArrayList<Dice> list) {
@@ -188,11 +234,30 @@ public class Roll extends Dice {
         
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
-        if (probs.diceFace(hand) >= 4) {
+        // counters
+        ArrayList<Integer> counters = new ArrayList<>();
+        counters.add(0); // 1
+        counters.add(0); // 2
+        counters.add(0); // 3
+        counters.add(0); // 4
+        counters.add(0); // 5
+        counters.add(0); // 6
+        
+        
+        
+        for (int j = 0; j < hand.size(); j++) {
+            for (int i = 1; i < 7; i++) {
+                if (hand.get(j) == i) {
+                    counters.set(i-1, counters.get(i-1) + 1); 
+                } 
+            }
+        }
+        
+        if (counters.contains(4) || counters.contains(5)) {
             return true;
         } else {
             return false;
@@ -208,7 +273,7 @@ public class Roll extends Dice {
         // reorder in increasing order
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
@@ -233,7 +298,7 @@ public class Roll extends Dice {
         
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
@@ -255,7 +320,7 @@ public class Roll extends Dice {
         // Dice to Integer
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
@@ -301,15 +366,22 @@ public class Roll extends Dice {
         
         ArrayList<Integer> hand = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             hand.add(list.get(i).getDiceValue());
         }
         
+        for (int i = 1; i < 5; i++) {
+            if (list.get(0).getDiceValue() != list.get(i).getDiceValue()) {
+                return false;
+            }
+        }
+        return true;
+        /*
         if (probs.diceFace(hand) == 5) {
             return true;
         } else {
             return false;
-        }
+        }*/
     }
     
     public void chooseOnes(ArrayList<Dice> list) {
@@ -616,7 +688,57 @@ public class Roll extends Dice {
     public static void setAvailableYahtzee(boolean availableYahtzee) {
         Roll.availableYahtzee = availableYahtzee;
     }
-    
-    
+
+    public void setOnesScore(int onesScore) {
+        this.onesScore = onesScore;
+    }
+
+    public void setTwosScore(int twosScore) {
+        this.twosScore = twosScore;
+    }
+
+    public void setThreesScore(int threesScore) {
+        this.threesScore = threesScore;
+    }
+
+    public void setFoursScore(int foursScore) {
+        this.foursScore = foursScore;
+    }
+
+    public void setFivesScore(int fivesScore) {
+        this.fivesScore = fivesScore;
+    }
+
+    public void setSixesScore(int sixesScore) {
+        this.sixesScore = sixesScore;
+    }
+
+    public void setSmallStraightScore(int smallStraightScore) {
+        this.smallStraightScore = smallStraightScore;
+    }
+
+    public void setLargeStraightScore(int largeStraightScore) {
+        this.largeStraightScore = largeStraightScore;
+    }
+
+    public void setThreeOfAKindScore(int threeOfAKindScore) {
+        this.threeOfAKindScore = threeOfAKindScore;
+    }
+
+    public void setFourOfAKindScore(int fourOfAKindScore) {
+        this.fourOfAKindScore = fourOfAKindScore;
+    }
+
+    public void setFullHouseScore(int fullHouseScore) {
+        this.fullHouseScore = fullHouseScore;
+    }
+
+    public void setChanceScore(int chanceScore) {
+        this.chanceScore = chanceScore;
+    }
+
+    public void setYahtzeeScore(int yahtzeeScore) {
+        this.yahtzeeScore = yahtzeeScore;
+    }
     
 }
