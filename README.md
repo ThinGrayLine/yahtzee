@@ -1,11 +1,12 @@
 # yahtzee
-just a yahtzee game made for a CS final project (champlain st lambert)
-(need to edit the folders, sorry!!)
+just a yahtzee game made for a CS final project (champlain st lambert). Quite messy really, I'll eventually clean up any errors.
+Feel free to test it and ask for a pull request. This was my first attempt at a game using Java, so it's not entirely perfect. Made exclusively using Java and JavaFX.
+
+If you want to use as a reference, please credit, I invested a lot of time into this project.
+
 
 made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
-- screen resolution? (fullscreen or fixed window?)  
-  
   REFERENCES:
   
   PROBABILITIES:
@@ -17,9 +18,6 @@ https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-fa
   
   MARKOV CHAIN:
   https://issuu.com/milliemince/docs/using_markov_chains_and_probabilistic_modeling_to_ 
-
-  EXCEL SHEET WITH PROBABILITIES (FOR YAHTZEE + STRAIGHTS):
-  https://slcqc-my.sharepoint.com/:x:/g/personal/2032412_champlaincollege_qc_ca/Efhq3YtfcgREox6ppISIhYoBQ7v1EHQ2XanrUXoiU8-7UA?e=hBjtfs
 
   To set up file:
   - create a new folder in "main" and name it resources.
