@@ -241,11 +241,11 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="diceOne" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: #fcffc6; -fx-border-color: #fcffc6; -fx-border-radius: 5px;" textAlignment="CENTER" />
-            <Button fx:id="diceTwo" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: #fcffc6; -fx-border-color: #fcffc6; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="1" />
-            <Button fx:id="diceThree" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: #fcffc6; -fx-border-color: #fcffc6; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="2" />
-            <Button fx:id="diceFour" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: #fcffc6; -fx-border-color: #fcffc6; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="3" />
-            <Button fx:id="diceFive" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice" prefHeight="86.0" prefWidth="86.0" style="-fx-background-color: #fcffc6; -fx-border-color: #fcffc6; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="4" />
+            <Button fx:id="diceOne" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice1" prefHeight="86.0" prefWidth="86.0" style="-fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" />
+            <Button fx:id="diceTwo" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice2" prefHeight="86.0" prefWidth="86.0" style="-fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="1" />
+            <Button fx:id="diceThree" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice3" prefHeight="86.0" prefWidth="86.0" style="-fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="2" />
+            <Button fx:id="diceFour" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice4" prefHeight="86.0" prefWidth="86.0" style="-fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="3" />
+            <Button fx:id="diceFive" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDice5" prefHeight="86.0" prefWidth="86.0" style="-fx-border-color: black; -fx-border-radius: 5px;" textAlignment="CENTER" GridPane.columnIndex="4" />
          </children>
       </GridPane>
       <Label fx:id="handLabel" layoutX="41.0" layoutY="497.0" prefHeight="18.0" prefWidth="254.0" text="Your hand:">
@@ -263,7 +263,10 @@
             <Font name="Harlow Solid Italic" size="37.0" />
          </font>
       </Label>
-      <TextField fx:id="totalScoreText" editable="false" layoutX="1025.0" layoutY="572.0" prefHeight="64.0" prefWidth="113.0" style="-fx-border-color: black;" />
+      <TextField fx:id="totalScoreText" alignment="CENTER" editable="false" layoutX="1025.0" layoutY="572.0" prefHeight="64.0" prefWidth="113.0" style="-fx-border-color: black;">
+         <font>
+            <Font name="Agency FB Bold" size="32.0" />
+         </font></TextField>
       <Label fx:id="prob2Label" alignment="CENTER" layoutX="682.0" layoutY="484.0" prefHeight="26.0" prefWidth="122.0" text="Probabilities" textAlignment="CENTER">
          <font>
             <Font name="Berlin Sans FB" size="21.0" />
