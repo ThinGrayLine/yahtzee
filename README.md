@@ -9,7 +9,7 @@ made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
 Known Bugs:
 - When returning from play menu, and opening new menu, the buttons to choose a combo don't work properly (same with probabilities).
-- Hand stays the same for turn 1when after choosing a combo. 
+- Hand stays the same for turn 1 when after choosing a combo. 
 
 
   REFERENCES:
