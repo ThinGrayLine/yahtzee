@@ -28,7 +28,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />  
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
@@ -223,9 +223,9 @@
       </Label>
       <Button fx:id="returnButton" layoutX="1157.0" layoutY="12.0" mnemonicParsing="false" onAction="#returnHome" prefHeight="103.0" prefWidth="106.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 2px;">
          <graphic>
-            <ImageView fx:id="arrowBack" fitHeight="74.0" fitWidth="74.0">
+            <ImageView fx:id="arrowBack" fitHeight="82.0" fitWidth="80.0">
                <image>
-                  <Image url="@../../../../../../../../Downloads/Back_Arrow.svg.png" />
+                  <Image url="@Back_Arrow.svg.png" />
                </image>
             </ImageView>
          </graphic></Button>
