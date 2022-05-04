@@ -1,5 +1,9 @@
 package YahtzeeProject;
 
+// NOTE: I DON'T USE THIS, BUT IT'S HERE IF TWO PLAYERS ARE INTRODUCED
+
+
+
 import java.util.ArrayList;
 
 public class Game {
