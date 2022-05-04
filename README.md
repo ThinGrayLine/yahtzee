@@ -29,6 +29,6 @@ https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-fa
   - in src/main, have two files "java" and "Resources"
   - each have a folder inside them that matches the project name, here it is: "YahtzeeProject"
   - "java" contains all the controllers and the classes
-  - "Resources" contains all the FXML files
+  - "Resources" contains all the FXML files and images (which are also included and have universal paths)
   - run the code in Main.java
   
