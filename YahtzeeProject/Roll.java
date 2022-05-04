@@ -72,18 +72,12 @@ public class Roll extends Dice {
         
     }
     
+    // written by grayson yen (2022)
+    
     public boolean isOnes(ArrayList<Dice> list) {
         if (availableOnes == false) {
             return false;
         }
-        
-        /*
-        ArrayList<Dice> hand = new ArrayList<>(5);
-        for (int i = 0; i < 5; i++) {
-            System.out.print(list.get(i).getDiceValue() + " ");
-            hand.add(list.get(i));
-        }
-        */
         
         for (int i = 0; i < 5; i++) {
             int num = list.get(i).getDiceValue();
@@ -570,11 +564,14 @@ public class Roll extends Dice {
         return yahtzeeScore;
     }
     
-    // getProbability method;
+    // written by grayson yen (2022)
 
-    public boolean isAvailableOnes() {
-        isOnes(list);
-        return availableOnes;
+    public boolean isAvailableOnes(ArrayList<Dice> hand) {
+        boolean value = availableOnes;
+        if (availableOnes == true) {
+            value = isOnes(hand);
+        }
+        return value;
     }
 
     public boolean isAvailableTwos() {
