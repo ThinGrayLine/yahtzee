@@ -1,11 +1,11 @@
 # yahtzee
-just a yahtzee game made for a CS final project (champlain st lambert). Quite messy really, I'll eventually clean up any errors.
+Just a yahtzee game made for a CS final project (champlain st lambert). Quite messy really, I'll eventually clean up any errors.
 Feel free to test it and ask for a pull request. This was my first attempt at a game using Java, so it's not entirely perfect. Made exclusively using Java and JavaFX.
 
 If you want to use as a reference, please credit, I invested a lot of time into this project.
 
 
-made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
+Made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
 Known Bugs:
 - When returning from play menu, and opening new menu, the buttons to choose a combo don't work properly (same with probabilities).
