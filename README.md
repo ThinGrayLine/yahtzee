@@ -7,6 +7,10 @@ If you want to use as a reference, please credit, I invested a lot of time into 
 
 made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
+Known Bugs:
+- When returning from play menu, and opening new menu, choose buttons don't work properly.
+
+
   REFERENCES:
   
   PROBABILITIES:
