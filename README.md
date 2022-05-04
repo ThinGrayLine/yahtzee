@@ -26,6 +26,7 @@ Known Bugs: (Didn't have as much time as I wanted to fix them. Apologies)
 
   
   MARKOV CHAIN: (for probabilities)
+  
   https://issuu.com/milliemince/docs/using_markov_chains_and_probabilistic_modeling_to_ 
 
   To set up file:
