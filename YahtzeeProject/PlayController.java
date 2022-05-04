@@ -2,11 +2,8 @@ package YahtzeeProject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -126,12 +122,12 @@ public class PlayController implements Runnable {
     @FXML public ImageView dice6 = new ImageView(diceImg6); 
     
     
-    
+    // universal inheritance
     public ArrayList<Dice> hand = new ArrayList<>();
     public static Probability gameProb;
     public static Roll gameRoll = new Roll();
     
-    
+    // creates a player
     private Thread createPlayer = new Thread(new Runnable() {
        @Override
        public void run() {
@@ -182,30 +178,13 @@ public class PlayController implements Runnable {
         }
     });
     
-    /*
-    // change border color when picked
-    private Thread selectDiceBorders = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            selectDice(ActionEvent event);
-        }
-    });
-    */
-    
+    // sets probabilities
     private Thread probSetting = new Thread(new Runnable() {
         @Override
         public void run() {
             
             //lock.lock();
             synchronized (lock) {
-                /*
-                while (hand.size() != 5) { // **CONDITION IS THAT HAND HASN'T BEEN ALTERED YET
-                    try {
-                        handChanged.wait();
-                    } catch (InterruptedException ex) {
-                        System.out.println("Error in probSetting.");
-                    }
-                }*/
                 
                 try {
                     onesProb();
@@ -231,17 +210,14 @@ public class PlayController implements Runnable {
         }
     });
     
+    // thread locking
     private ReentrantLock lock = new ReentrantLock();
     private Condition handChanged = lock.newCondition();
     
     // turn counter (for rolls 1, 2 and 3)
     private int turn = 0;
     
-    // methods
-    // ******TO DO:******
-    // FIX ERROR, STACK OVERFLOW OF DICE AND PLAYER
-        // IT CALLS PLAYER INFINITELY FOR SOME REASON -> SO IT CREATES INFINITE DICE
-    
+    // starts by creating a player and changing media
     @FXML
     public void initialize() throws InterruptedException {
         lock.lock();
@@ -251,31 +227,16 @@ public class PlayController implements Runnable {
                 changeDiceMedia.start();
             }
             
-            
-            
         } finally {
             lock.unlock();
         }
     }
     
     @Override
-    public void run() { // needs thread.start();
-        // fix this now
+    public void run() { 
         comboCheck();
         probSetting.start();
         
-        /*
-        hand.addAll(player.getHand());
-        handChanged.signal();
-        */
-        // create instance of Player and run the thread using that?
-        // javatpoint.com/java thread run method
-        
-        // thread checks if dice is selected -> lock button (CHECK IF ANY DICE IS SELECTED, IF NONE ARE, LOCK ROLL BUTTON FOR TURNS 2 AND 3)
-        
-        // thread select dice -> css
-        
-        // roll -> change media and update values for points and probabilities, THEN allow the player to do stuff (lock and unlock)
     }
     
     // RETURN TO MAIN MENU
@@ -350,85 +311,100 @@ public class PlayController implements Runnable {
     
     // ROLLS DICE
     public void rollDice(ActionEvent event) throws IOException { ///////////////////////////////////////////////
+        if (turn == 0) {
+            for (int i = 0; i < 5; i++) {
+                Dice dice = new Dice();
+                hand.set(i, dice);
+            }
+            // resets the media
+            changeDiceMedia.run();
+            hand.get(0).setSelected(false);
+            hand.get(1).setSelected(false);
+            hand.get(2).setSelected(false);
+            hand.get(3).setSelected(false);
+            hand.get(4).setSelected(false);
+            diceOne.setStyle("-fx-border-color: black");
+            diceTwo.setStyle("-fx-border-color: black");
+            diceThree.setStyle("-fx-border-color: black");
+            diceFour.setStyle("-fx-border-color: black");
+            diceFive.setStyle("-fx-border-color: black");
+            
+        }
+        turn++;
         
         switch (turn) {
-            case 0 -> {
-                
+            case 1 -> {
                 for (int i = 0; i < 5; i++) {
                     Dice dice = new Dice();
                     hand.add(dice);
+                    //System.out.print(hand.get(i).getDiceValue() + " ");
                 }
-                
+                System.out.println();
                 synchronized (this) {
-                    changeDiceMedia.run(); // .start()?????
+                    changeDiceMedia.run();
                 }
                 
                 
                 comboCheck();
-                turn++;
             }
-            case 1 -> {
+            case 2 -> {
                 // checks to see if a dice is selected, then rerolls it 
-                
-                
-                
                 for (int i = 0; i < 5; i++) {
                     if (hand.get(i).isSelected() == false) {
                         rollButton.setDisable(false);
-                        hand.get(i).setDiceValue();
+                        Dice dice = new Dice();
+                        
+                        hand.set(i, dice);
+                        //System.out.print(hand.get(i).getDiceValue() + " ");
                     }   
-                }
-                
-                /*
+                }          
                 synchronized (this) {
-                    changeDiceMedia.run();
-                }
-                */
-                
-                setDiceReroll();
+                    setDiceReroll.run();
+                }    
                 comboCheck();
-                turn++;
             }
-            case 2 -> {
+            case 3 -> {
                 for (int i = 0; i < 5; i++) {
-                    if (hand.get(i).isSelected() == true) {
+                    if (hand.get(i).isSelected() == false) {
                         rollButton.setDisable(false);
-                        hand.get(i).setDiceValue();
+                        Dice dice = new Dice();
+                        
+                        hand.set(i, dice);
+                        //System.out.print(hand.get(i).getDiceValue() + " ");
                     }   
                 }
                 
                 synchronized (this) {
-                    changeDiceMedia.run();
-                }
-                
-                setDiceReroll();
+                    setDiceReroll.run();
+                } 
                 comboCheck();
+                rollButton.setDisable(true);
             }
             default -> {
-                rollButton.setDisable(true);
+                
                 
             }
         }
         // runLater here? (cause GUI updating?)
-        // probability setting
+        // probability setting, occurs AFTER the dice is rolled and media changed
         probSetting.run();
         
     }
     
+    // written by grayson yen (2022)
     // check available combinations all at once, set them to true or false in multiple if statements
     // edits button text to have points
     public void comboCheck() {
-        Roll roll = new Roll(hand);
+        //Roll roll = new Roll(hand);
         
-        if (roll.isOnes(hand) == false) {
-            if (roll.isAvailableOnes() == false) {
-                
+        if (gameRoll.isOnes(hand) == false) {
+            if (chooseOneButton.isDisabled() == false) {
+                chooseOneButton.setText("0");
             }
+        } else if (gameRoll.isOnes(hand) == true && gameRoll.isAvailableOnes(hand) == true) {
             
-            //chooseOneButton.setDisable(true);
-            chooseOneButton.setText("0");
-        } else {
-            chooseOneButton.setDisable(false);
+            //chooseOneButton.setDisable(false);
+            
             int numOfOne = 0;
         
             for (int i = 0; i < 5; i++) {
@@ -438,12 +414,17 @@ public class PlayController implements Runnable {
                 }
             }
             
-            chooseOneButton.setText(String.valueOf(numOfOne));
-        }
+            if (chooseOneButton.isDisabled() == false) {
+                chooseOneButton.setText(String.valueOf(numOfOne));
+            }
+            
         
-        if (roll.isTwos(hand) == false) {
-            //chooseTwoButton.setDisable(true);
-            chooseTwoButton.setText("0");
+        } 
+        
+        if (gameRoll.isTwos(hand) == false) {
+            if (chooseTwoButton.isDisabled() == false) {
+                chooseTwoButton.setText("0");
+            }
         } else {
             chooseTwoButton.setDisable(false);
             int numOfTwo = 0;
@@ -455,13 +436,16 @@ public class PlayController implements Runnable {
                 }
             }
             
-            chooseTwoButton.setText(String.valueOf(numOfTwo));
+            if (chooseTwoButton.isDisabled() == false) {
+                chooseTwoButton.setText(String.valueOf(numOfTwo));
+            }
             
         }
         
-        if (roll.isThrees(hand) == false) {
-            //chooseThreeButton.setDisable(true);
-            chooseThreeButton.setText("0");
+        if (gameRoll.isThrees(hand) == false) {
+            if (chooseThreeButton.isDisabled() == false) {
+                chooseThreeButton.setText("0");
+            }
         } else {
             chooseThreeButton.setDisable(false);
             int numOfThree = 0;
@@ -473,12 +457,15 @@ public class PlayController implements Runnable {
                 }
             }
             
-            chooseThreeButton.setText(String.valueOf(numOfThree));
+            if (chooseThreeButton.isDisabled() == false) {
+                chooseThreeButton.setText(String.valueOf(numOfThree));
+            }
         }
         
-        if (roll.isFours(hand) == false) {
-            //chooseFourButton.setDisable(true);
-            chooseFourButton.setText("0");
+        if (gameRoll.isFours(hand) == false) {
+            if (chooseFourButton.isDisabled() == false) {
+                chooseFourButton.setText("0");
+            }
         } else {
             chooseFourButton.setDisable(false);
             int numOfFour = 0;
@@ -489,13 +476,16 @@ public class PlayController implements Runnable {
                     numOfFour += 4;
                 }
             }
-            
-            chooseFourButton.setText(String.valueOf(numOfFour));
+            if (chooseFourButton.isDisabled() == false) {
+                chooseFourButton.setText(String.valueOf(numOfFour));
+            }
+
         }
         
-        if (roll.isFives(hand) == false) {
-            //chooseFiveButton.setDisable(true);
-            chooseFiveButton.setText("0");
+        if (gameRoll.isFives(hand) == false) {
+            if (chooseFiveButton.isDisabled() == false) {
+                chooseFiveButton.setText("0");
+            }
         } else {
             chooseFiveButton.setDisable(false);
             int numOfFive = 0;
@@ -507,12 +497,16 @@ public class PlayController implements Runnable {
                 }
             }
             
-            chooseFiveButton.setText(String.valueOf(numOfFive));
+            if (chooseFiveButton.isDisabled() == false) {
+                chooseFiveButton.setText(String.valueOf(numOfFive));
+            }
+            
         }
         
-        if (roll.isSixes(hand) == false) {
-            //chooseSixButton.setDisable(true);
-            chooseSixButton.setText("0");
+        if (gameRoll.isSixes(hand) == false) {
+            if (chooseSixButton.isDisabled() == false) {
+                chooseSixButton.setText("0");
+            }
         } else {
             chooseSixButton.setDisable(false);
             int numOfSix = 0;
@@ -523,26 +517,32 @@ public class PlayController implements Runnable {
                     numOfSix += 6;
                 }
             }
-            
-            chooseSixButton.setText(String.valueOf(numOfSix));
+            if (chooseSixButton.isDisabled() == false) {
+                chooseSixButton.setText(String.valueOf(numOfSix));
+            }
             
         }
         
-        if (roll.isThreeOfAKind(hand) == false) {
-            //chooseTOAKButton.setDisable(true);
-            chooseTOAKButton.setText("0");
+        if (gameRoll.isThreeOfAKind(hand) == false) {
+            if (chooseTOAKButton.isDisabled() == false) {
+                chooseTOAKButton.setText("0");
+            }
         } else {
             chooseTOAKButton.setDisable(false);
             int toak = 0;
             for (int i = 0; i < 5; i++) {
                 toak += hand.get(i).getDiceValue();
             }
-            chooseTOAKButton.setText(String.valueOf(toak));
+            
+            if (chooseTOAKButton.isDisabled() == false) {
+                chooseTOAKButton.setText(String.valueOf(toak));
+            }
         }
         
-        if (roll.isFourOfAKind(hand) == false) {
-            //chooseFOAKButton.setDisable(true);
-            chooseFOAKButton.setText("0");
+        if (gameRoll.isFourOfAKind(hand) == false) {
+            if (chooseFOAKButton.isDisabled() == false) {
+                chooseFOAKButton.setText("0");
+            }
         } else {
             chooseFOAKButton.setDisable(false);
             int foak = 0;
@@ -550,51 +550,66 @@ public class PlayController implements Runnable {
                 foak += hand.get(i).getDiceValue();
             }
             
-            chooseFOAKButton.setText(String.valueOf(foak));
+            if (chooseFOAKButton.isDisabled() == false) {
+                chooseFOAKButton.setText(String.valueOf(foak));
+            }
         }
         
-        if (roll.isSmallStraight(hand) == false) {
-            //chooseSSButton.setDisable(true);
-            chooseSSButton.setText("0");
+        if (gameRoll.isSmallStraight(hand) == false) {
+            if (chooseSSButton.isDisabled() == false) {
+                chooseSSButton.setText("0");
+            }
         } else {
-            chooseSSButton.setDisable(false);
-            chooseSSButton.setText(String.valueOf(30));
+            if (chooseSSButton.isDisabled() == false) {
+                chooseSSButton.setText(String.valueOf(30));
+            }
         }
         
-        if (roll.isLargeStraight(hand) == false) {
-            //chooseLSButton.setDisable(true);
-            chooseLSButton.setText("0");
+        if (gameRoll.isLargeStraight(hand) == false) {
+            if (chooseLSButton.isDisabled() == false) {
+                chooseLSButton.setText("0");
+            }
         } else {
-            chooseLSButton.setDisable(false);
-            chooseLSButton.setText(String.valueOf(40));
+            if (chooseLSButton.isDisabled() == false) {
+                chooseLSButton.setText(String.valueOf(30));
+            }
         }
         
-        if (roll.isFullHouse(hand) == false) {
-            //chooseFHButton.setDisable(true);
-            chooseFHButton.setText("0");
+        if (gameRoll.isFullHouse(hand) == false) {
+            if (chooseFHButton.isDisabled() == false) {
+                chooseFHButton.setText("0");
+            }
         } else {
-            chooseFHButton.setDisable(false);
-            chooseFHButton.setText(String.valueOf(25));
+            if (chooseFHButton.isDisabled() == false) {
+                chooseFHButton.setText(String.valueOf(30));
+            }
         }
                 
         
-        if (roll.isChance(hand) == false) {
+        if (gameRoll.isChance(hand) == false) {
             //chooseChanceButton.setDisable(true);
-            chooseChanceButton.setText("0");
+            if (chooseChanceButton.isDisabled() == false) {
+                chooseChanceButton.setText("0");
+            }
         } else {
             chooseChanceButton.setDisable(false);
             int chance = 0;
             for (int i = 0; i < 5; i++) {
                 chance += hand.get(i).getDiceValue();
             }
-            chooseChanceButton.setText(String.valueOf(chance));
+            if (chooseChanceButton.isDisabled() == false) {
+                chooseChanceButton.setText(String.valueOf(chance));
+            }
         }
         
-        if (roll.isYahtzee(hand) == false) {
-            //chooseYahtzeeButton.setDisable(true);
-            chooseYahtzeeButton.setText("0");
+        if (gameRoll.isYahtzee(hand) == false) {
+            if (chooseYahtzeeButton.isDisabled() == false) {
+                chooseYahtzeeButton.setText("0");
+            }
         } else {
-            chooseYahtzeeButton.setDisable(false);
+            if (chooseYahtzeeButton.isDisabled() == false) {
+                chooseYahtzeeButton.setText(String.valueOf(50));
+            }
             chooseYahtzeeButton.setText(String.valueOf(50));
         }
         
@@ -681,69 +696,108 @@ public class PlayController implements Runnable {
         }
     }
     
-    public void setDiceReroll() {
-        Dice newDice1 = new Dice();
+    // same method as before, but in a thread for easier maneuvering
+    private Thread setDiceReroll = new Thread(new Runnable() {
         
-        if (hand.get(0).isSelected() == false) {
-            switch (newDice1.getDiceValue()) {
-                case 1 -> diceOne.setGraphic(dice1);
-                case 2 -> diceOne.setGraphic(dice2);
-                case 3 -> diceOne.setGraphic(dice3);
-                case 4 -> diceOne.setGraphic(dice4);
-                case 5 -> diceOne.setGraphic(dice5);
-                case 6 -> diceOne.setGraphic(dice6); 
+        @Override        
+        public void run() {
+            //Dice newDice1 = new Dice();
+        
+            ImageView img01 = new ImageView(diceImg1);
+            ImageView img02 = new ImageView(diceImg2);
+            ImageView img03 = new ImageView(diceImg3);
+            ImageView img04 = new ImageView(diceImg4);
+            ImageView img05 = new ImageView(diceImg5);
+            ImageView img06 = new ImageView(diceImg6);
+            
+            if (hand.get(0).isSelected() == false) {
+                switch (hand.get(0).getDiceValue()) {
+                    case 1 -> diceOne.setGraphic(img01);
+                    case 2 -> diceOne.setGraphic(img02);
+                    case 3 -> diceOne.setGraphic(img03);
+                    case 4 -> diceOne.setGraphic(img04);
+                    case 5 -> diceOne.setGraphic(img05);
+                    case 6 -> diceOne.setGraphic(img06); 
+                }
+            }
+
+            ImageView img1 = new ImageView(diceImg1);
+            ImageView img2 = new ImageView(diceImg2);
+            ImageView img3 = new ImageView(diceImg3);
+            ImageView img4 = new ImageView(diceImg4);
+            ImageView img5 = new ImageView(diceImg5);
+            ImageView img6 = new ImageView(diceImg6);
+            
+            //Dice newDice2 = new Dice();
+            if (hand.get(1).isSelected() == false) {
+                switch (hand.get(1).getDiceValue()) {
+                    case 1 -> diceTwo.setGraphic(dice1);
+                    case 2 -> diceTwo.setGraphic(dice2);
+                    case 3 -> diceTwo.setGraphic(dice3);
+                    case 4 -> diceTwo.setGraphic(dice4);
+                    case 5 -> diceTwo.setGraphic(dice5);
+                    case 6 -> diceTwo.setGraphic(dice6); 
+                }
+            }
+
+            ImageView img11 = new ImageView(diceImg1);
+            ImageView img22 = new ImageView(diceImg2);
+            ImageView img33 = new ImageView(diceImg3);
+            ImageView img44 = new ImageView(diceImg4);
+            ImageView img55 = new ImageView(diceImg5);
+            ImageView img66 = new ImageView(diceImg6);
+            
+            //Dice newDice3 = new Dice();
+            if (hand.get(2).isSelected() == false) {
+                switch (hand.get(2).getDiceValue()) {
+                    case 1 -> diceThree.setGraphic(img11);
+                    case 2 -> diceThree.setGraphic(img22);
+                    case 3 -> diceThree.setGraphic(img33);
+                    case 4 -> diceThree.setGraphic(img44);
+                    case 5 -> diceThree.setGraphic(img55);
+                    case 6 -> diceThree.setGraphic(img66); 
+                }
+            }
+
+            ImageView img111 = new ImageView(diceImg1);
+            ImageView img222 = new ImageView(diceImg2);
+            ImageView img333 = new ImageView(diceImg3);
+            ImageView img444 = new ImageView(diceImg4);
+            ImageView img555 = new ImageView(diceImg5);
+            ImageView img666 = new ImageView(diceImg6);
+            
+            //Dice newDice4 = new Dice();
+            if (hand.get(3).isSelected() == false) {
+                switch (hand.get(3).getDiceValue()) {
+                    case 1 -> diceFour.setGraphic(img111);
+                    case 2 -> diceFour.setGraphic(img222);
+                    case 3 -> diceFour.setGraphic(img333);
+                    case 4 -> diceFour.setGraphic(img444);
+                    case 5 -> diceFour.setGraphic(img555);
+                    case 6 -> diceFour.setGraphic(img666); 
+                }
+            }
+
+            ImageView img1111 = new ImageView(diceImg1);
+            ImageView img2222 = new ImageView(diceImg2);
+            ImageView img3333 = new ImageView(diceImg3);
+            ImageView img4444 = new ImageView(diceImg4);
+            ImageView img5555 = new ImageView(diceImg5);
+            ImageView img6666 = new ImageView(diceImg6);
+            
+            //Dice newDice5 = new Dice();
+            if (hand.get(4).isSelected() == false) {
+                switch (hand.get(4).getDiceValue()) {
+                    case 1 -> diceFive.setGraphic(img1111);
+                    case 2 -> diceFive.setGraphic(img2222);
+                    case 3 -> diceFive.setGraphic(img3333);
+                    case 4 -> diceFive.setGraphic(img4444);
+                    case 5 -> diceFive.setGraphic(img5555);
+                    case 6 -> diceFive.setGraphic(img6666); 
+                }
             }
         }
-        
-        Dice newDice2 = new Dice();
-        if (hand.get(1).isSelected() == false) {
-            switch (newDice2.getDiceValue()) {
-                case 1 -> diceTwo.setGraphic(dice1);
-                case 2 -> diceTwo.setGraphic(dice2);
-                case 3 -> diceTwo.setGraphic(dice3);
-                case 4 -> diceTwo.setGraphic(dice4);
-                case 5 -> diceTwo.setGraphic(dice5);
-                case 6 -> diceTwo.setGraphic(dice6); 
-            }
-        }
-        
-        Dice newDice3 = new Dice();
-        if (hand.get(2).isSelected() == false) {
-            switch (newDice3.getDiceValue()) {
-                case 1 -> diceThree.setGraphic(dice1);
-                case 2 -> diceThree.setGraphic(dice2);
-                case 3 -> diceThree.setGraphic(dice3);
-                case 4 -> diceThree.setGraphic(dice4);
-                case 5 -> diceThree.setGraphic(dice5);
-                case 6 -> diceThree.setGraphic(dice6); 
-            }
-        }
-        
-        Dice newDice4 = new Dice();
-        if (hand.get(3).isSelected() == false) {
-            switch (newDice4.getDiceValue()) {
-                case 1 -> diceFour.setGraphic(dice1);
-                case 2 -> diceFour.setGraphic(dice2);
-                case 3 -> diceFour.setGraphic(dice3);
-                case 4 -> diceFour.setGraphic(dice4);
-                case 5 -> diceFour.setGraphic(dice5);
-                case 6 -> diceFour.setGraphic(dice6); 
-            }
-        }
-        
-        Dice newDice5 = new Dice();
-        if (hand.get(4).isSelected() == false) {
-            switch (newDice5.getDiceValue()) {
-                case 1 -> diceFive.setGraphic(dice1);
-                case 2 -> diceFive.setGraphic(dice2);
-                case 3 -> diceFive.setGraphic(dice3);
-                case 4 -> diceFive.setGraphic(dice4);
-                case 5 -> diceFive.setGraphic(dice5);
-                case 6 -> diceFive.setGraphic(dice6); 
-            }
-        }
-        
-    }
+    });
     
     // CHOOSE COMBINATIONS METHODS
     public void chooseOne(ActionEvent event) throws IOException {
@@ -816,7 +870,8 @@ public class PlayController implements Runnable {
         gameRoll.chooseSixes(hand);
         gameRoll.setAvailableSixes(false);
         
-        gameRoll.setSixesScore(Integer.parseInt(chooseSixButton.getText()));
+        final int SCORE = Integer.parseInt(chooseSixButton.getText());
+        gameRoll.setSixesScore(SCORE);
         
         chooseSixButton.setDisable(true);
         rollButton.setDisable(false);
@@ -906,7 +961,10 @@ public class PlayController implements Runnable {
         gameRoll.chooseYahtzee(hand);
         gameRoll.setAvailableYahtzee(false);
         
-        gameRoll.setYahtzeeScore(Integer.parseInt(chooseYahtzeeButton.getText()));
+        final int SCORE = Integer.parseInt(chooseYahtzeeButton.getText());
+        gameRoll.setYahtzeeScore(SCORE);
+        
+        
         
         chooseYahtzeeButton.setDisable(true);
         rollButton.setDisable(false);
@@ -915,7 +973,7 @@ public class PlayController implements Runnable {
     }
     
     // PROBABILITIES METHODS
-    // HAVE ALL PROBS (5 ROWS)???
+    // counts the appearance of each face in an arrayList
     public ArrayList<Integer> counters(ArrayList<Dice> hand) {
         ArrayList<Integer> counters = new ArrayList<>();
         counters.add(0); // 1
@@ -938,6 +996,9 @@ public class PlayController implements Runnable {
         return counters;
     }
     
+    // written by grayson yen (2022)
+    
+    // checks probabilities
     public void onesProb() throws IOException { // figure this out
         if (counters(hand).get(0) >= 1) {
             onesProb.setText("100");
@@ -1101,11 +1162,11 @@ public class PlayController implements Runnable {
         }
     }
     
+    // gets the final score after all combinations have been chosen
     public void scoreTotal() {
         int total = 0;
-        //Roll roll = new Roll(hand);
-        if (gameRoll.isAvailableOnes() == false && gameRoll.isAvailableTwos() == false && gameRoll.isAvailableThrees() == false && gameRoll.isAvailableFours() == false && gameRoll.isAvailableFives() == false && gameRoll.isAvailableSixes() == false && gameRoll.isAvailableSmallStraight() == false && gameRoll.isAvailableLargeStraight() == false && gameRoll.isAvailableThreeOfAKind() == false && gameRoll.isAvailableFourOfAKind() == false && gameRoll.isAvailableFullHouse() == false && gameRoll.isAvailableChance() == false && gameRoll.isAvailableYahtzee() == false) {
-            total = gameRoll.getOnes() + gameRoll.getTwos() + gameRoll.getThrees() + gameRoll.getFours() + gameRoll.getFives() + gameRoll.getSixes() + gameRoll.getSmallStraight() + gameRoll.getLargeStraight() + gameRoll.getThreeOfAKind() + gameRoll.getFourOfAKind() + gameRoll.getFullHouse() + gameRoll.getChance() + gameRoll.getYahtzee();
+        if (gameRoll.isAvailableOnes(hand) == false && gameRoll.isAvailableTwos() == false && gameRoll.isAvailableThrees() == false && gameRoll.isAvailableFours() == false && gameRoll.isAvailableFives() == false && gameRoll.isAvailableSixes() == false && gameRoll.isAvailableSmallStraight() == false && gameRoll.isAvailableLargeStraight() == false && gameRoll.isAvailableThreeOfAKind() == false && gameRoll.isAvailableFourOfAKind() == false && gameRoll.isAvailableFullHouse() == false && gameRoll.isAvailableChance() == false && gameRoll.isAvailableYahtzee() == false) {
+            total = Integer.parseInt(chooseOneButton.getText()) + Integer.parseInt(chooseTwoButton.getText()) + Integer.parseInt(chooseThreeButton.getText()) + Integer.parseInt(chooseFourButton.getText()) + Integer.parseInt(chooseFiveButton.getText()) + Integer.parseInt(chooseSixButton.getText()) + Integer.parseInt(chooseTOAKButton.getText()) + Integer.parseInt(chooseFOAKButton.getText()) + Integer.parseInt(chooseSSButton.getText()) + Integer.parseInt(chooseLSButton.getText()) + Integer.parseInt(chooseFHButton.getText()) + Integer.parseInt(chooseChanceButton.getText()) + Integer.parseInt(chooseYahtzeeButton.getText());
             totalScoreText.setText(String.valueOf(total));
         } 
         
