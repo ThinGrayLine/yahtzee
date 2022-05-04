@@ -7,7 +7,7 @@ If you want to use as a reference, please credit, I invested a lot of time into 
 
 Made by Grayson Yen, Noah Dohnani, and Giuseppe Caruana
 
-Known Bugs:
+Known Bugs: (Didn't have as much time as I wanted to fix them. Apologies)
 - When returning from play menu, and opening new menu, the buttons to choose a combo don't work properly (same with probabilities).
 - Hand stays the same for turn 1 when after choosing a combo. 
 
@@ -18,10 +18,10 @@ Known Bugs:
   https://www.mathcelebrity.com/yahtzee.php?pl=3+of+a+Kind
   https://www.datagenetics.com/blog/january42012/
   https://ctools.ece.utah.edu/Probability/Combinatorics/ProbCombEx3.pdf
-https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-faces-when-five-dice-are-rolled#:~:text=If%20you%20want%20five%20different,five%20dice%20have%20different%20faces.
+  https://math.stackexchange.com/questions/2640053/probability-of-five-distinct-faces-when-five-dice-are-rolled#:~:text=If%20you%20want%20five%20different,five%20dice%20have%20different%20faces.
 
   
-  MARKOV CHAIN:
+  MARKOV CHAIN: (for probabilities)
   https://issuu.com/milliemince/docs/using_markov_chains_and_probabilistic_modeling_to_ 
 
   To set up file:
